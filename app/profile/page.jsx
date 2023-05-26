@@ -35,7 +35,7 @@ const MyProfile = () => {
     if (!user){
       getCurrentUser();
     }
-  }, [session?.user.id, userInfoModal.isOpen, socialsModal.isOpen]);
+  }, [session?.user.id, userInfoModal.isOpen, socialsModal.isOpen, router.asPath]);
 
   return (
     <div className="grid sm:grid-cols-2 justify-items-center content-center grid-flow-row mt-4 mb-8 px-2 gap-6">

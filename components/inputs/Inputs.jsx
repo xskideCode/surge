@@ -20,7 +20,7 @@ export const validateEmail = {
 export const validateName = {
   matchPattern: (v) => {
     if (v !== '') {
-      return /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(v) || "Username must contain only  letters, numbers, . and _ !";
+      return /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_.])$/.test(v) || "Username must contain only  letters, numbers, . and _ !";
     }
     return true;
   },

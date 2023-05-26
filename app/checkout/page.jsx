@@ -8,10 +8,8 @@ import { MdDone } from "react-icons/md";
 const Checkout = () => {
   const type = "2";
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  const [channels, setChannels] = useState(
-    JSON.parse(localStorage.getItem("channels"))
-  );
+  
+  const [channels, setChannels] = useState([]);
 
   const [selectedChannel, setSelectedChannel] = useState(null);
 

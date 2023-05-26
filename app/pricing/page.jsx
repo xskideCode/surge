@@ -16,23 +16,10 @@ const Pricing = () => {
   }, [type]);
 
   const checkout = () => {
-    const user = localStorage.getItem('profile');
-    if (!user) {
-      // if user not available, show an alert urging user to sign in
-      alert('Please sign in to proceed with checkout.');
-      return;
-    }
-    setType('1');
+    
   }
   const checkout1 = () => {
-    const user = localStorage.getItem('profile');
-    if (!user) {
-      // if user not available, show an alert urging user to sign in
-      alert('Please sign in to proceed with checkout.');
-      return;
-    }
     
-    setType('2');
   }
 
   return (

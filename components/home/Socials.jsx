@@ -8,7 +8,7 @@ const Socials = ({ label, link, user, org, icon: Icon}) => {
         object-contain
         cursor-pointer
         hover:scale-125
-        ${org ? 'opacity-100' : ((user && user[label]) ? ((user[label] !== 'null') ? 'opacity-100' : 'opacity-30') : 'opacity-30') }
+        ${org ? 'opacity-100' : ((user && user[label]) ? ((user[label] !== '') ? 'opacity-100' : 'opacity-30') : 'opacity-30') }
      `}
     >
       <Icon size={18} />

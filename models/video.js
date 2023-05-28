@@ -17,6 +17,26 @@ const VideoSchema = new Schema({
         width: Number,
         height: Number,
       },
+      default: {
+        url: String,
+        width: Number,
+        height: Number,
+      },
+      high: {
+        url: String,
+        width: Number,
+        height: Number,
+      },
+      medium: {
+        url: String,
+        width: Number,
+        height: Number,
+      },
+      standard: {
+        url: String,
+        width: Number,
+        height: Number,
+      },
     },
   },
   statistics: {
@@ -41,13 +61,6 @@ const VideoSchema = new Schema({
 { timestamps: true }
 );
 
-VideoSchema.post('save', async function (doc) {
-  const Channel = model('Channel');
-  await Channel.updateOne(
-    { _id: doc.channelId },
-    { $push: { videoIds: doc._id }}
-  );
-});
 
 // Define the pre-remove middleware for the VideoSchema
 VideoSchema.pre('remove', async function (next) {

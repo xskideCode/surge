@@ -28,8 +28,7 @@ const Button = ({
         transition
         w-full
         font-poppins
-        ${red ? 'bg-red-500 ' : ''}
-        ${outline ? 'bg-transparent ' : 'bg-purple-700'}
+        ${outline ? (red ? 'bg-red-500 ' : 'bg-transparent') : 'bg-purple-700'}
         ${outline ? 'border-white' : 'border-purple-700'}
         ${outline ? 'text-white' : 'text-white'}
         ${small ? 'text-sm' : 'text-md'}

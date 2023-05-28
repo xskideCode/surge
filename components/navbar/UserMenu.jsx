@@ -8,8 +8,10 @@ import useLoginModal from "@hooks/useLoginModal";
 
 import MenuItem from "./MenuItem";
 import Avatar from '@components/Avatar';
+import { useRouter } from "next/navigation";
 
 const UserMenu = ({ user }) => {
+  const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false)
@@ -43,12 +45,12 @@ const UserMenu = ({ user }) => {
           
           {/* Menu Animation */}
           
-          <button class="text-white rounded-md w-6  h-6  relative focus:outline-none transform transition-all  ring-0 ring-gray-300 hover:ring-2 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
-              <span class="sr-only">Open main menu</span>
-              <div class="block w-4 absolute left-1/2 top-1/2 transform  -translate-x-1/2 -translate-y-1/2">
-                  <span ariaHidden="true" class={`block absolute h-0.5 w-4 bg-current transform transition duration-500 ease-in-out ${isOpen ? 'rotate-45': ' -translate-y-1.5'}`}></span>
-                  <span ariaHidden="true" class={`block absolute  h-0.5 w-4 bg-current   transform transition duration-500 ease-in-out" ${isOpen ? 'opacity-0': '' } `}></span>
-                  <span aria-hidden="true" class={`block absolute  h-0.5 w-4 bg-current transform  transition duration-500 ease-in-out" ${isOpen ? '-rotate-45': ' translate-y-1.5'}`}></span>
+          <button className="text-white rounded-md w-6  h-6  relative focus:outline-none transform transition-all  ring-0 ring-gray-300 hover:ring-2 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
+              <span className="sr-only">Open main menu</span>
+              <div className="block w-4 absolute left-1/2 top-1/2 transform  -translate-x-1/2 -translate-y-1/2">
+                  <span aria-hidden="true" className={`block absolute h-0.5 w-4 bg-current transform transition duration-500 ease-in-out ${isOpen ? 'rotate-45': ' -translate-y-1.5'}`}></span>
+                  <span aria-hidden="true" className={`block absolute  h-0.5 w-4 bg-current   transform transition duration-500 ease-in-out" ${isOpen ? 'opacity-0': '' } `}></span>
+                  <span aria-hidden="true" className={`block absolute  h-0.5 w-4 bg-current transform  transition duration-500 ease-in-out" ${isOpen ? '-rotate-45': ' translate-y-1.5'}`}></span>
               </div>
           </button>
 
@@ -114,7 +116,9 @@ const UserMenu = ({ user }) => {
                     type='button'
                     onClick={() => {
                       setIsOpen(false);
-                      signOut();
+                      signOut({ callbackUrl: '/' });
+                      localStorage.removeItem("tempChannels");
+                      sessionStorage.removeItem("userId");
                     }}
                     className='mb-3 mt-1 purple_btn'
                   >

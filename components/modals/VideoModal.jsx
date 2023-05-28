@@ -14,6 +14,7 @@ import Button from "@components/Button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import Inputs from "@components/inputs/Inputs";
+import Thumbnail from "@components/Thumbnail";
 
 const STEPS = {
   FETCH: 0,
@@ -22,18 +23,23 @@ const STEPS = {
 
 const VideoModal = () => {
   const videoModal = useVideoModal();
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const videos = useState([]); 
+  const [videos, setVideos] = useState([]); 
+  const BASE_URL = 'https://youtube-v31.p.rapidapi.com/videos';
 
   const [step, setStep] = useState(STEPS.FETCH)
 
   const { register, handleSubmit, setValue, watch, formState: { errors, }, reset } = useForm({
     defaultValues: {
       vidId: '',
+      svideo: [],
+
     }
   })
 
   const vidId = watch('vidId');
+  const svideo = watch('svideo');
 
   const setCustomValue = (id, value) =>{
     setValue(id, value, {
@@ -47,8 +53,32 @@ const VideoModal = () => {
     setStep((value) => value - 1);
   };
 
-  const onNext = () => {
+  const onNext = async() => {
+    setIsLoading(true);
+    
+    const options = {
+      method: 'GET',
+      url: BASE_URL,
+      params: {
+        part: 'contentDetails,snippet,statistics',
+        id: vidId,
+      },
+      headers: {
+        'X-RapidAPI-Key': '9174af6bf5msh9090d340cbeac59p1fee4fjsn37ea34899877',
+        'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com'
+      }
+    };
+    
+    try {
+      const response = await axios.request(options);
+      setVideos(response.data.items);
+      setCustomValue('svideo', response.data.items)
+    } catch (error) {
+      console.error(error);
+    }
     setStep((value) => value + 1);
+    setIsLoading(false);
+    
   };
 
   const actionLabel = useMemo(() => {
@@ -69,17 +99,23 @@ const VideoModal = () => {
 
   
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     if (step !== STEPS.CONFIRM) {
       return onNext();
     }
+
+    if (data && data.svideo && Array.isArray(data.svideo)) {
+      const svideoIndex = data.svideo.findIndex((video) => video && video.id);
+      if (svideoIndex !== -1) {
+        data.svideo[svideoIndex].userId = session.user.id;
+      }
+    }
     
     setIsLoading(true);
-    console.log(data);
 
     axios.post('/api/video', data)
       .then(() => {
-        toast.success('Channel Added!')
+        toast.success('Video saved!')
         reset();
         setStep(STEPS.FETCH);
         videoModal.onClose();
@@ -128,19 +164,13 @@ const VideoModal = () => {
           scrollbar-thin
           "
         >
-        {videos.map((item) => (
-            <div key={item?.id} className="col-span-1 md:col-span-2">
+        {videos.map((item, id) => (
+            <div key={id} className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-x-2">
-                <Image 
-                className="object-cover rounded-md" 
-                src="/assets/images/demoThumbnail.png" 
-                alt="video thumbnail"
-                width={120}
-                height={68}
-                />
-                <div>
-                    <h2 className="font-medium text-white ">Test vid name</h2>
-                    <p className="text-sm font-normal text-gray-400">add description</p>
+                <Thumbnail src={item?.snippet?.thumbnails?.medium?.url} />
+                <div className="w-56 ss:w-64 sm:w-96">
+                    <h2 className="font-medium text-white ">{item?.snippet?.title}</h2>
+                    <p className="text-sm font-normal text-gray-400 line-clamp-2 leading-normal">{item?.snippet?.description}</p>
                 </div>
             </div>
             </div>

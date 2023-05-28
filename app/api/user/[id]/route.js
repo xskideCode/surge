@@ -1,4 +1,6 @@
+import Channel from "@models/channel";
 import User from "@models/user";
+import Video from "@models/video";
 import { connectToDB } from "@utils/database";
 import mongoose from "mongoose";
 
@@ -6,11 +8,21 @@ export const GET = async (request, { params }) => {
   try {
     await connectToDB();
 
-    const user = await User.findById(params.id).populate("channelIds");
+    const user = await User.findById(params.id);
 
     if (!user) return new Response("User Not Found", { status: 404 });
 
-    return new Response(JSON.stringify(user), { status: 200 });
+    const channels = await Channel.find({ _id: user.channelIds});
+
+    const videos = await Video.find({ _id: { $in: channels.map(channel => channel.videoIds) }});
+
+    const newUser = {
+      ...user.toObject(),
+      channels,
+      videos
+    };
+
+    return new Response(JSON.stringify(newUser), { status: 200 });
   } catch (error) {
     return new Response(error, { status: 500 });
   }

@@ -8,7 +8,17 @@ const ChannelSchema = new Schema({
     customUrl: String,
     publishedAt: String,
     thumbnails: {
+      default: {
+        url: String,
+        width: Number,
+        height: Number,
+      },
       high: {
+        url: String,
+        width: Number,
+        height: Number,
+      },
+      medium: {
         url: String,
         width: Number,
         height: Number,
@@ -32,13 +42,6 @@ const ChannelSchema = new Schema({
 { timestamps: true }
 );
 
-ChannelSchema.post('save', async function (doc) {
-  const User = model('User');
-  await User.updateOne(
-    { _id: doc.userId },
-    { $push: { channelIds: doc._id }}
-  );
-});
 
 // // Define the pre-remove middleware for the ChannelSchema
 // ChannelSchema.pre('remove', async function (next) {
@@ -61,7 +64,7 @@ ChannelSchema.post('save', async function (doc) {
 //   }
 // });
 
-UserSchema.pre('remove', { document: false, query: true }, async function(next) {
+ChannelSchema.pre('remove', { document: false, query: true }, async function(next) {
   const doc = await this.model.findOne(this.getFilter());
   await Video.deleteMany({ channelId: doc._id })
   const User = mongoose.model('User');

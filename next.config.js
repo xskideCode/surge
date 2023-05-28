@@ -7,6 +7,8 @@ const nextConfig = {
   images: {
       domains: [
         'lh3.googleusercontent.com',
+        'yt3.ggpht.com',
+        'i.ytimg.com',
     ],
   },
   webpack(config) {

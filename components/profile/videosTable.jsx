@@ -4,8 +4,12 @@ import { MdDeleteOutline } from 'react-icons/md'
 import { FaRegEdit } from 'react-icons/fa'
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import Button from '@components/Button'
+import Thumbnail from '@components/Thumbnail'
+import useVideoModal from '@hooks/useVideoModal'
 
-const VideosTable = () => {
+const VideosTable = ({ videos }) => {
+    const videoModal = useVideoModal();
+
   return (
     <section className="container mx-auto rounded-2xl">
       <div className="flex justify-between items-center gap-x-3">
@@ -13,7 +17,8 @@ const VideosTable = () => {
           <div className="bg-zinc-700 max-w-[130px] min-w-[115px] rounded-lg">
             <Button 
             label={'Add Video'}
-            small           
+            small      
+            onClick={() => {videoModal.onOpen(); }}      
             />
           </div>
       </div>
@@ -42,44 +47,76 @@ const VideosTable = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-gray-900 divide-y divide-gray-700 ">
-                            <tr>
+                            {(videos && videos.length > 0) ? (
+                                videos.map((item) => (
+                                    <tr>
+                                        <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap">
+                                            <div className="inline-flex items-center gap-x-3">
+                                                <input type="checkbox" className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"/>
+
+                                                <div className="flex items-center gap-x-2">
+                                                    <Thumbnail src={item?.snippet.thumbnails.medium.url} />
+                                                    <div className='w-40 ss:w-52 '>
+                                                        <h2 className="font-medium text-white ">{item?.snippet?.title}</h2>
+                                                        <p className="text-sm font-normal text-gray-400 truncate">{item?.snippet?.description}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        
+                                        <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{item?.snippet.channelTitle}</td>
+
+                                        <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{item?.likes.length} {item?.likes.length === '1' ? 'likes' : 'likes'}</td>
+                                        
+                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                            <div className="flex items-center gap-x-6">
+                                                <div className="transition-colors duration-200 text-gray-300 hover:text-red-500 focus:outline-none">
+                                                    <MdDeleteOutline size={20} />
+                                                </div>
+
+                                                <div className="transition-colors duration-200 text-gray-300 hover:text-yellow-500 focus:outline-none">
+                                                    <FaRegEdit size={20}/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                                
+                            ) : (   
+                            <tr className='animate-pulse'>
                                 <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap">
                                     <div className="inline-flex items-center gap-x-3">
-                                        <input type="checkbox" className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"/>
+                                        <input type="checkbox" disabled className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700 opacity-30"/>
 
                                         <div className="flex items-center gap-x-2">
-                                            <Image 
-                                            className="object-cover rounded-md" 
-                                            src="/assets/images/demoThumbnail.png" 
-                                            alt="video thumbnail"
-                                            width={120}
-                                            height={68}
+                                            <div
+                                            className='bg-zinc-600 rounded-sm w-[120px] h-[68px] opacity-30'
                                             />
                                             <div>
-                                                <h2 className="font-medium text-white ">Test vid name</h2>
-                                                <p className="text-sm font-normal text-gray-400">add description</p>
+                                                <h2 className="font-medium text-white w-14 h-3 bg-zinc-600 rounded-sm opacity-30 mb-3"></h2>
+                                                <div className="text-sm font-normal w-20 h-2 bg-zinc-600 rounded-sm odivacity-30"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 
-                                <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">Test Channel </td>
+                                <td className="px-4 py-4"><div className='w-12 h-3 my-7 bg-zinc-600 rounded-sm opacity-30' /></td>
 
-                                <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">2 likes</td>
+                                <td className="px-4 py-4 whitespace-nowrap"><div className='w-12 h-3 my-7 bg-zinc-600 rounded-sm opacity-30' /></td>
                                 
                                 <td className="px-4 py-4 text-sm whitespace-nowrap">
                                     <div className="flex items-center gap-x-6">
-                                        <div className="transition-colors duration-200 text-gray-300 hover:text-red-500 focus:outline-none">
+                                        <div className="opacity-50 transition-colors duration-200 text-gray-300 hover:text-red-500 focus:outline-none">
                                             <MdDeleteOutline size={20} />
                                         </div>
 
-                                        <div className="transition-colors duration-200 text-gray-300 hover:text-yellow-500 focus:outline-none">
+                                        <div className="opacity-50 transition-colors duration-200 text-gray-300 hover:text-yellow-500 focus:outline-none">
                                             <FaRegEdit size={20}/>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-
+                            )}
                         </tbody>
                     </table>
                 </div>

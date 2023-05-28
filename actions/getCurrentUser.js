@@ -1,20 +1,11 @@
-import { useSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt"
 
-import User from "@models/user";
-import { connectToDB } from "@utils/database";
+const secret = process.env.NEXTAUTH_SECRET
 
-export const getCurrentUser = async () => {
-  try {
-    await connectToDB();
-
-    const{ data: session } = useSession();
-
-    const user = await User.findById(session.user.id).populate("channelIds");
-
-    if (!user) return new Response("User Not Found", { status: 404 });
-
-    return new Response(JSON.stringify(user), { status: 200});
-  } catch (error) {
-    return null;
-  }
+export default async(req, res) => {
+  // if using `NEXTAUTH_SECRET` env variable, we detect it, and you won't actually need to `secret`
+  // const token = await getToken({ req })
+  const token = await getToken({ req, secret })
+  console.log("JSON Web Token", token)
+  res.end()
 }

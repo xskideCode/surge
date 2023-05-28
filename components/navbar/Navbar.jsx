@@ -7,9 +7,24 @@ import { useSession } from "next-auth/react";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
+import useTempChannels from "@hooks/useTempChannels";
 
 const Nav = () => {
   const { data: session } = useSession();
+  const tempChannels = useTempChannels();
+
+  useEffect(() => {
+    const user = session?.user    
+  }, [session?.user])
+
+  useEffect(() => {
+    if (session?.user.channels && session?.user.channels.length !== 0 ) { // Check if session.channels is an empty array
+      localStorage.setItem("tempChannels", JSON.stringify(session?.user.channels))
+      sessionStorage.setItem("userId", JSON.stringify(session?.user.id))
+    }    
+  }, [session])  
+  
+  
 
   return (
     <nav className='flex justify-between items-center py-6 gap-3 w-full mb-1 sm:mb-4'>

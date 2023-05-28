@@ -1,10 +1,25 @@
+import Avatar from '@components/Avatar'
 import Button from '@components/Button'
+import useChannelModal from '@hooks/useChannelModal'
 import Image from 'next/image'
 import { FaRegEdit } from 'react-icons/fa'
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import { MdDeleteOutline } from 'react-icons/md'
 
-const ChannelsTable = () => {
+function shortenNumber(str) {
+    const num = Number(str);
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + "m";
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + "k";
+    } else {
+      return str;
+    }
+  }
+
+const ChannelsTable = ({ channels }) => {    
+  const channelModal = useChannelModal();
+
   return (
     <section className="container mx-auto rounded-2xl">
       <div className="flex justify-between items-center gap-x-3">
@@ -12,7 +27,8 @@ const ChannelsTable = () => {
           <div className="bg-zinc-700 max-w-[130px] min-w-[125px] rounded-lg">
             <Button 
             label={'Add Channel'}
-            small           
+            small 
+            onClick={() => {channelModal.onOpen(); }}          
             />
           </div>
       </div>
@@ -42,44 +58,81 @@ const ChannelsTable = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-gray-900 divide-y divide-gray-700 ">
-                            <tr>
+                            {(channels && channels.length > 0) ? (
+                                channels.map((item) => (
+                                    <tr>
+                                        <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap">
+                                            <div className="inline-flex items-center gap-x-3">
+                                                <input type="checkbox" className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"/>
+
+                                                <div className="flex items-center gap-x-2">
+                                                    <Avatar src={item?.snippet.thumbnails.medium.url}
+                                                    />
+                                                    <div className='w-40 ss:w-52 '>
+                                                        <h2 className="font-medium text-white ">{item?.snippet.title}</h2>
+                                                        <p className="text-sm font-normal text-gray-400 truncate">{item?.snippet.description}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        
+                                        <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{shortenNumber(item?.statistics.videoCount)} {item?.statistics.videoCount === '1' ? 'Video' : 'Videos'}</td>
+
+                                        <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{shortenNumber(item?.statistics.subscriberCount)} {item?.statistics.videoCount === '1' ? 'sub' : 'subs'}</td>
+                                        
+                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                            <div className="flex items-center gap-x-6">
+                                                <div className="transition-colors duration-200 text-gray-300 hover:text-red-500 focus:outline-none">
+                                                    <MdDeleteOutline size={20} />
+                                                </div>
+
+                                                <div className="transition-colors duration-200 text-gray-300 hover:text-yellow-500 focus:outline-none">
+                                                    <FaRegEdit size={20}/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                                
+                            ) : (                            
+                            <tr className='animate-pulse'>
                                 <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap">
                                     <div className="inline-flex items-center gap-x-3">
-                                        <input type="checkbox" className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"/>
+                                        <input type="checkbox" disabled className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700 opacity-30"/>
 
                                         <div className="flex items-center gap-x-2">
                                             <Image 
-                                            className="object-cover rounded-full" 
+                                            className=" opacity-30 object-cover rounded-full" 
                                             src="/assets/images/placeholder.png" 
                                             alt="video thumbnail"
                                             width={40}
                                             height={40}
                                             />
                                             <div>
-                                                <h2 className="font-medium text-white ">Test Channel name</h2>
-                                                <p className="text-sm font-normal text-gray-400">add description</p>
+                                                <h2 className="font-medium text-white w-14 h-3 bg-zinc-600 rounded-sm opacity-30 mb-3"></h2>
+                                                <div className="text-sm font-normal w-20 h-2 bg-zinc-600 rounded-sm odivacity-30"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 
-                                <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">4 Videos</td>
+                                <td className="px-4 py-1"><div className='w-12 h-3 my-7 bg-zinc-600 rounded-sm opacity-30' /></td>
 
-                                <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">40.9k subs</td>
+                                <td className="px-4 py-1"><div className='w-12 h-3 my-7 bg-zinc-600 rounded-sm opacity-30' /></td>
                                 
                                 <td className="px-4 py-4 text-sm whitespace-nowrap">
                                     <div className="flex items-center gap-x-6">
-                                        <div className="transition-colors duration-200 text-gray-300 hover:text-red-500 focus:outline-none">
+                                        <div className="opacity-50 transition-colors duration-200 text-gray-300 hover:text-red-500 focus:outline-none">
                                             <MdDeleteOutline size={20} />
                                         </div>
 
-                                        <div className="transition-colors duration-200 text-gray-300 hover:text-yellow-500 focus:outline-none">
+                                        <div className="opacity-50 transition-colors duration-200 text-gray-300 hover:text-yellow-500 focus:outline-none">
                                             <FaRegEdit size={20}/>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-
+                            )}
                         </tbody>
                     </table>
                 </div>

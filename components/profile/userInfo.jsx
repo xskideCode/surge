@@ -6,7 +6,6 @@ import Socials from "@components/home/Socials";
 import useImageModal from "@hooks/useImageModal";
 import useSocialsModal from "@hooks/useSocialsModal";
 import useUserInfoModal from "@hooks/useUserInfoModal";
-import { useSession } from "next-auth/react";
 import { BsFacebook, BsInstagram, BsTiktok, BsTwitter } from "react-icons/bs";
 import { MdDelete, MdDeleteForever, MdEdit } from "react-icons/md";
 
@@ -33,11 +32,10 @@ export const socialMedia = [
   },
 ];
 
-const UserInfo = ({ user }) => {
+const UserInfo = ({ user, isLoading }) => {
   const userInfoModal = useUserInfoModal();
   const socialsModal = useSocialsModal();
   const imageModal = useImageModal();
-  const { data: session } = useSession();
 
 
   return (
@@ -50,9 +48,9 @@ const UserInfo = ({ user }) => {
         </div>
         <div>
           <h3 className={`heading3 text-lg  font-semibold leading-6 mb-4`}>
-            {(user?.name || user?.username || session?.user.name) ? (
+            {((user?.name || user?.username) && !isLoading ) ? (
               <>
-              {user?.name || user?.username || session?.user.name}
+              {user?.name || user?.username }
               </>
             ):(
               <div className="bg-zinc-700 opacity-30 rounded-sm w-32 h-6 animate-pulse" />
@@ -75,8 +73,8 @@ const UserInfo = ({ user }) => {
             <div className="px-4 grid grid-cols-3 grid-flow-row sm:px-6">
               <dt className={`heading5 text-sm text-slate-400 col-span-3 `}>Username</dt>
               <dd className={`paragraph2 mt-1 text-sm sm:mt-0 col-span-2`}>
-              {(user?.name || user?.username || session?.user.name) ? (
-                  user?.name || user?.username || session?.user.name
+              {((user?.name || user?.username) && !isLoading ) ? (
+                  user?.name || user?.username 
                 ) : (
                   <div className="w-32 h-4 rounded-sm opacity-25 bg-zinc-700 animate-pulse" />
                 )}
@@ -86,8 +84,8 @@ const UserInfo = ({ user }) => {
             <div className="px-4 grid grid-cols-3 grid-flow-row sm:px-6">
               <dt className={`heading5 text-sm text-slate-400 col-span-3`}>Email</dt>
               <dd className={`paragraph2 mt-1 text-sm sm:mt-0 col-span-3`}>
-              {user?.email || user?.username || session?.user.email ? (
-                user.email || session?.user.email
+              {(user?.email || user?.username) && !isLoading ? (
+                user.email
               ) : (
                 <div className="w-52 h-4 rounded-sm opacity-25 bg-zinc-700 animate-pulse" />
               )}
@@ -118,7 +116,7 @@ const UserInfo = ({ user }) => {
           <dl>
             <div className="px-4 pt-1 grid grid-cols-4 gap-4 sm:px-6 ">
               <dt className={`heading5 text-sm text-slate-400 col-span-4`}>Socials</dt>
-              <div className="flex flex-row mt-1 gap-5 col-span-3">
+              <div className={`flex flex-row mt-1 gap-5 col-span-3 ${isLoading ? 'animate-pulse' : ''}`}>
                 {socialMedia.map((social) => (
                   <Socials
                     key={social.id}

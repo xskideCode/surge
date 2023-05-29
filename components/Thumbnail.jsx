@@ -6,9 +6,13 @@ const Thumbnail = ({ src, large }) => {
   return (
     <div>
       <Image
-        className="object-cover rounded-md"
-        height={`${large ? 480 : 90 }`}
-        width={`${large ? 640 : 120 }`}
+        className={`
+          object-cover
+          object-center 
+          rounded-md
+        `}
+        height={`${large ? 180 : 90 }`}
+        width={`${large ? 320 : 120 }`}
         alt="Thumbnail"
         src={src || "/assets/images/demoThumbnail.png"} 
       />

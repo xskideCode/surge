@@ -6,7 +6,6 @@ import React from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 
 const VideoCard = ({ data, currentUser}) => {
-  console.log(data)
   return (
     <div
       onClick={() => router.push(`/videos/${data?._id}`)}
@@ -21,7 +20,7 @@ const VideoCard = ({ data, currentUser}) => {
           rounded-xl
         "
         >
-          <Thumbnail large src={data.snippet.thumbnails.maxres.url} />
+          <Thumbnail className="overflow-hidden" large src={data.snippet.thumbnails?.maxres?.url || data.snippet.thumbnails?.medium?.url || data.snippet.thumbnails?.default?.url} />
           <div
             className="
           absolute
@@ -34,11 +33,11 @@ const VideoCard = ({ data, currentUser}) => {
         </div>
 
         <div className="grid grid-cols-7 grid-rows-2 font-semibold text-lg gap-2">
-          <div className="row-span-2 justify-self-center">
+          <div className="row-span-2 justify-self-center ">
           <Avatar large medium  src={data.channelId.snippet.thumbnails.medium.url} />
           </div>
           <div className=" col-span-5 row-span-2">
-            <div className="flex flex-row items-center gap-4 text-ellipsis overflow-hidden max-h-14">
+            <div className="text-sm line-clamp-2 text-ellipsis overflow-hidden max-h-12">
               {data.snippet.title}
             </div>
             <div className="text-sm font-light text-neutral-400">

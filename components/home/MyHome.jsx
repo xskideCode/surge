@@ -7,6 +7,8 @@ import Promoted from "./Promoted";
 import Community from "./Community";
 import CTA from "./CTA";
 import Category from "@components/Category";
+import Videos from "@components/videos/Videos";
+import VideosPage from "@app/videos/page";
 
 const MyHome = () => {
   return (
@@ -19,9 +21,9 @@ const MyHome = () => {
       <div className="bg-primary flex_center ">
         <div className="box_width">
         <Promoted />
-            <Category />
             <div className=" sm:max-h-[750px] max-h-[1090px] mx-4 overflow-clip">
-              <div
+              <VideosPage />
+              {/* <div
                 className="
                   pt-24
                   grid
@@ -35,7 +37,7 @@ const MyHome = () => {
                 "
               >
               
-              </div>
+              </div> */}
             </div>
             <div class="relative flex py-5 items-center opacity-50 hover:opacity-90">
               <div class="flex-grow border-t border-gray-400"></div>

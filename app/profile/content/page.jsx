@@ -24,16 +24,8 @@ const UserContent = () => {
         setUser(data1);
         setChannels(data1.channels);
         setVideos(data1.videos);
-      } else {
-        setUserId(JSON.parse(sessionStorage.getItem("userId")))
-        
-        const response = await fetch(`/api/user/${userId}`);
-        const data1 = await response.json();
-  
-        setUser(data1);        
-        setChannels(data1.channels);
-        setVideos(data1.videos);
-      }
+        console.log(data1);
+      } 
     };
  
     router.prefetch('/profile');

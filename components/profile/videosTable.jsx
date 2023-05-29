@@ -50,15 +50,15 @@ const VideosTable = ({ videos }) => {
                             {(videos && videos.length > 0) ? (
                                 videos.map((item) => (
                                     <tr>
-                                        <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap">
+                                        <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap text-ellipsis overflow-hidden">
                                             <div className="inline-flex items-center gap-x-3">
                                                 <input type="checkbox" className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"/>
 
                                                 <div className="flex items-center gap-x-2">
                                                     <Thumbnail src={item?.snippet.thumbnails.medium.url} />
-                                                    <div className='w-40 ss:w-52 '>
-                                                        <h2 className="font-medium text-white ">{item?.snippet?.title}</h2>
-                                                        <p className="text-sm font-normal text-gray-400 truncate">{item?.snippet?.description}</p>
+                                                    <div className='w-40 ss:w-52 sm:w-[250px] md:w-[340px] lg:w-[500px]'>
+                                                        <h2 className="font-medium text-white truncate">{item?.snippet?.title}</h2>
+                                                        <p className="text-sm font-normal text-gray-400 truncate ">{item?.snippet?.description}</p>
                                                     </div>
                                                 </div>
                                             </div>

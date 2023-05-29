@@ -17,9 +17,10 @@ const MyProfile = () => {
   const videoModal = useVideoModal();
   const userInfoModal = useUserInfoModal();
   const socialsModal = useSocialsModal();
+  
 
   const [user, setUser] = useState({});  
-  const [userId, setUserId] = useState('');  
+  const [isLoading, setIsLoading] = useState(false);  
     
     useEffect(() => {
       const visibilityHandler = () => document.visibilityState === "visible" && update()
@@ -30,36 +31,28 @@ const MyProfile = () => {
   useEffect(() => {
     const getCurrentUser = async () => {
       if (session?.user) {
+        setIsLoading(true);
         const response = await fetch(`/api/user/${session.user.id}`);
         const data1 = await response.json();
   
         setUser(data1);
-      } else {
-        setUserId(sessionStorage.getItem("userId"))
-
-        const response = await fetch(`/api/user/${userId}`);
-        const data1 = await response.json();
-  
-        setUser(data1);
-        console.log(userId)
+        setIsLoading(false);
       }
     };
  
     router.prefetch('/profile/content');
     router.prefetch('/profile/promotions');
-    
-
 
     getCurrentUser();
   
-  }, [session?.user, session, userInfoModal.isOpen, socialsModal.isOpen, router.pathname]);
+  }, [session, userInfoModal.isOpen, socialsModal.isOpen]);
   
 
   return (
     <div className="grid sm:grid-cols-2 justify-items-center content-center grid-flow-row mt-4 mb-8 px-2 gap-6">
       {/* User Details */}
       <div className=" px-2 sm:px-0 row-span-6 ">
-        <UserInfo user={user} />
+        <UserInfo user={user} isLoading={isLoading} />
       </div>
       {/* Add Channel & Video Prompt */}
       <div className="row-span-2 ">

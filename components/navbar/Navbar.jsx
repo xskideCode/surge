@@ -20,7 +20,6 @@ const Nav = () => {
   useEffect(() => {
     if (session?.user.channels && session?.user.channels.length !== 0 ) { // Check if session.channels is an empty array
       localStorage.setItem("tempChannels", JSON.stringify(session?.user.channels))
-      sessionStorage.setItem("userId", JSON.stringify(session?.user.id))
     }    
   }, [session])  
   

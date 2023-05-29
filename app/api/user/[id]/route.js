@@ -14,7 +14,8 @@ export const GET = async (request, { params }) => {
 
     const channels = await Channel.find({ _id: user.channelIds});
 
-    const videos = await Video.find({ _id: { $in: channels.map(channel => channel.videoIds) }});
+    const videoIds = channels.map(channel => channel.videoIds).flat();
+const videos = await Video.find({ _id: { $in: videoIds } });
 
     const newUser = {
       ...user.toObject(),

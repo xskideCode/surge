@@ -13,7 +13,7 @@ const useLike = ({ userId, currentVideo }) => {
   const loginModal = useLoginModal();
 
   const hasLiked = useMemo(() => {
-    const list = request.data.likes || currentVideo?.likes || [];
+    const list = currentVideo?.likes || [];
 
     return list.includes(userId);
   }, [currentVideo, userId]);

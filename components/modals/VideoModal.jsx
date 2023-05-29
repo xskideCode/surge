@@ -118,7 +118,7 @@ const VideoModal = () => {
     
     setIsLoading(true);
 
-    axios.post('/api/video', data)
+    axios.post('/api/videos', data)
       .then(() => {
         toast.success('Video saved!')
         reset();

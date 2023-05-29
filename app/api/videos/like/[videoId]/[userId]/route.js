@@ -1,12 +1,11 @@
 import Video from "@models/video";
 import { NextResponse } from "next/server";
 
-export const POST = async (request) => {
-  const body = await request.json();
-  const{ params } = body;
+export const POST = async (request, { params }) => {
+  
   
   try {
-    const existingVideo = await Video.findById(params.id);
+    const existingVideo = await Video.findById(params.videoId);
     
 
     if (!existingVideo) return new Response("No video with that Id", { status : 404 });
@@ -21,7 +20,7 @@ export const POST = async (request) => {
       video.likes = video.likes.filter((id) => id !== String(params.userId));
     }
 
-    const updatedVideo = await Video.findByIdAndUpdate(params.id, video, {
+    const updatedVideo = await Video.findByIdAndUpdate(params.videoId, video, {
       new: true,
     });
 

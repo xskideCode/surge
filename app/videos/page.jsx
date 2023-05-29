@@ -13,7 +13,7 @@ const VideosPage = () => {
 
 
   const fetchVideos = async () => {
-    const response = await fetch("/api/video");
+    const response = await fetch("/api/videos");
     const data = await response.json();
 
     setAllVideos(data);

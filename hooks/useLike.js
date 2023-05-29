@@ -7,31 +7,28 @@ import { toast } from "react-hot-toast";
 import useLoginModal from "./useLoginModal";
 
 
-const useLike = ({ currentVideo, userId }) => {
+const useLike = ({ userId, currentVideo }) => {
   const router = useRouter();
 
   const loginModal = useLoginModal();
 
   const hasLiked = useMemo(() => {
-    const list = currentVideo.likes || [];
+    const list = request.data.likes || currentVideo?.likes || [];
 
     return list.includes(userId);
   }, [currentVideo, userId]);
 
   const toggleLike = useCallback(async (e) => {
     e.stopPropagation();
-    console.log(currentVideo.likes);
-    console.log(userId);
-    
 
-    if (!userId) {
+    if (!currentVideo) {
       return loginModal.onOpen();
     }
 
     try {
       let request;
-     
-      request = () => axios.post(`/api/video/like/${currentVideo._id}`, { params: { userId: userId, id: currentVideo._id } });      
+
+      request = () => axios.post(`/api/videos/like/${currentVideo._id}/${userId}`);      
 
       await request();
       router.refresh();
@@ -42,12 +39,13 @@ const useLike = ({ currentVideo, userId }) => {
       }
     } catch (error) {
       toast.error('Something went wrong.');
+      console.error(error);
     }
   }, 
   [
-    currentVideo,  
+    currentVideo, 
+    hasLiked, 
     userId, 
-    hasLiked,
     loginModal,
     router
   ]);

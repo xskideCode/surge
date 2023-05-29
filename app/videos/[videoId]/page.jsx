@@ -11,7 +11,7 @@ const VideoPage = () => {
   useEffect(() => {
     const getCurrentVideo = async () => {
         setIsLoading(true);
-        const response = await fetch(`/api/video/${params.videoId}`);
+        const response = await fetch(`/api/videos/${params.videoId}`);
         const data = await response.json();
   
         setVideo(data);

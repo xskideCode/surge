@@ -42,9 +42,6 @@ export const PATCH = async (request, { params }) => {
       return new Response("User not found", { status: 404 });
     }
 
-    console.log(existingUser);
-    console.log(body);
-
     let userInfo = Object.keys(body).map((key) => {
       if (body[key].trim().length !== 0) {
         if (key.startsWith("name")) {

@@ -1,7 +1,7 @@
 'use client';
 
 import axios from "axios";  
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
@@ -22,19 +22,16 @@ const UserInfoModal = () => {
   const router = useRouter();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: {
-      name: '',
-      email: '',
+    defaultValues: async () => {
+      const response = await fetch(`/api/user/${session?.user.id}`);
+      const data = await response.json();
+
+      return{
+        name: data.username,
+        email: data.email,
+      }
     },
   });
-
-  const setCustomValue = (id, value) =>{
-    setValue(id, value, {
-      shouldValidate: true,
-      shouldTouch: true,
-      shouldDirty: true,
-    });
-  }
 
   const onSubmit = data => {
     setIsLoading(true);
@@ -95,8 +92,7 @@ const UserInfoModal = () => {
         <Button
           type='button'
           label={`Cancel`}
-          red   
-          outline    
+          red    
           onClick={() => { userInfoModal.onClose();}}          
         />
     </div>

@@ -1,31 +1,29 @@
 'use client';
 
 import axios from "axios";  
-import { useCallback, useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-import useImageModal from "@hooks/useImageModal";
+import useDeleteModal from "@hooks/useDeleteModal";
 
 import Modal from "./Modal";
 import Heading from "@components/Heading";
-import Inputs from "@components/inputs/Inputs";
 import { useSession } from "next-auth/react";
 import Button from "@components/Button";
-import ImageUpload from "@components/inputs/ImageUpload";
 import { AiFillAlert } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
 
-const ImageModal = () => {
-  const imageModal = useImageModal();
+const DeleteModal = () => {
+  const deleteModal = useDeleteModal();
   const [isLoading, setIsLoading] = useState(false); 
   const router = useRouter();
   const { data: session } = useSession();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      image: '',
+      del: '',
     },
   });
 
@@ -35,7 +33,7 @@ const ImageModal = () => {
 
     axios.delete(`/api/user/${session.user.id}`, data)
       .then(() => {
-        imageModal.onClose();
+        deleteModal.onClose();
         toast.success('Account Deleted');
         router.push('/');
       })
@@ -48,9 +46,6 @@ const ImageModal = () => {
 
   }
 
-  const onToggle = useCallback(() => {
-    imageModal.onClose();
-  }, [imageModal])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -74,7 +69,7 @@ const ImageModal = () => {
           type='button'
           label={`Cancel`}
           red   
-          onClick={() => { imageModal.onClose();}}          
+          onClick={() => { deleteModal.onClose();}}          
         />
     </div>
   );
@@ -83,10 +78,10 @@ const ImageModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={imageModal.isOpen}
+      isOpen={deleteModal.isOpen}
       title="Settings"
       actionLabel="Delete "
-      onClose={imageModal.onClose}
+      onClose={deleteModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -94,4 +89,4 @@ const ImageModal = () => {
   )
 }
 
-export default ImageModal
+export default DeleteModal

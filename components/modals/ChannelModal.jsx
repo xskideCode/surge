@@ -1,9 +1,9 @@
 'use client';
 
 import axios from "axios";  
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 import useChannelModal from "@hooks/useChannelModal";
 
@@ -11,8 +11,6 @@ import Modal from "./Modal";
 import Heading from "@components/Heading";
 import { useSession } from "next-auth/react";
 import Button from "@components/Button";
-import Image from "next/image";
-import useTempChannels from "@hooks/useTempChannels";
 import Avatar from "@components/Avatar";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -30,17 +28,6 @@ const ChannelModal = () => {
     }
   }, [channelModal.isOpen])
 
-  const addOrRemove = (channel) => {
-    const index = schannel.findIndex((channel) => channel.id === channel.id);
-    if (index === -1) {
-      const updatedChannel = { ...channel, userId: session.user.id };
-      newChannels.push(updatedChannel);
-    } else {
-      newChannels.splice(index, 1);
-    }
-    setSelectedChannels(newChannels);
-    console.log(selectedChannels)
-  }
 
   const { control, register, handleSubmit, setValue, watch, formState: { errors, }, reset } = useForm({
     defaultValues: {
@@ -48,35 +35,11 @@ const ChannelModal = () => {
     }
   })
   const { fields, append, remove } = useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: "schannel", // unique name for your Field Array
+    control, 
+    name: "schannel", 
   });
 
   const schannel = watch('schannel');
-
-  const setCustomValue = (id, value) =>{
-    setValue(id, value, {
-      shouldValidate: true,
-      shouldTouch: true,
-      shouldDirty: true,
-    });
-  }
-
-  // const onSubmit = async (data) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const res = await axios.post("/api/channels", data);
-  //     if (res.status === 201) {
-  //       toast.success("Channel created successfully");
-  //       reset();
-  //       setIsLoading(false);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //     setIsLoading(false);
-  //   }
-  // }
-
 
   const onSubmit = (data) => {
     setIsLoading(true); 

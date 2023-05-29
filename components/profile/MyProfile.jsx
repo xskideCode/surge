@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 const MyProfile = () => {
   const router = useRouter();
-  const { data: session, update } = useSession();
+  const { data: session, status, update } = useSession();
   const channelModal = useChannelModal();
   const videoModal = useVideoModal();
   const userInfoModal = useUserInfoModal();
@@ -22,20 +22,20 @@ const MyProfile = () => {
   const [user, setUser] = useState({});  
   const [isLoading, setIsLoading] = useState(false);  
     
-    useEffect(() => {
-      const visibilityHandler = () => document.visibilityState === "visible" && update()
-      window.addEventListener("visibilitychange", visibilityHandler, false)
-      return () => window.removeEventListener("visibilitychange", visibilityHandler, false)
-    }, [update])
+  useEffect(() => {
+    const visibilityHandler = () => document.visibilityState === "visible" && update()
+    window.addEventListener("visibilitychange", visibilityHandler, false)
+    return () => window.removeEventListener("visibilitychange", visibilityHandler, false)
+  }, [update])
 
   useEffect(() => {
     const getCurrentUser = async () => {
       if (session?.user) {
         setIsLoading(true);
         const response = await fetch(`/api/user/${session.user.id}`);
-        const data1 = await response.json();
+        const data = await response.json();
   
-        setUser(data1);
+        setUser(data);
         setIsLoading(false);
       }
     };
@@ -44,8 +44,9 @@ const MyProfile = () => {
     router.prefetch('/profile/promotions');
 
     getCurrentUser();
+    console.log(status)
   
-  }, [session, userInfoModal.isOpen, socialsModal.isOpen]);
+  }, [session, status, userInfoModal.isOpen, socialsModal.isOpen]);
   
 
   return (

@@ -36,7 +36,7 @@ const VideosPage = () => {
   return (
     <>
     <Category />
-      <Videos videos={allVideos} currentUser={user}/>
+      <Videos videos={allVideos} currentUser={(user.length !== 0) ? user : session?.user}/>
     </>
   );
 };

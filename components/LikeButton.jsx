@@ -6,12 +6,13 @@ import useLike from "@hooks/useLike";
 
 
 const LikeButton = ({ 
-  videoId,
-  currentUser
+  userId,
+  currentVideo,
+  size
 }) => {
   const { hasLiked, toggleLike } = useLike({
-    videoId,
-    currentUser
+    userId,
+    currentVideo
   });
 
   return (
@@ -24,9 +25,12 @@ const LikeButton = ({
         cursor-pointer
       "
     >
-      <AiOutlineLike
-        size={25}
+      <AiOutlineLike        
         className="
+          w-[18px]
+          xs:w-[24px]
+          h-[18px]
+          xs:h-[24px]
           fill-white
           absolute
           -top-[2px]
@@ -34,10 +38,13 @@ const LikeButton = ({
         "
       />
       <AiFillLike
-        size={20}
-        className={
-          hasLiked ? 'fill-violet-500' : 'fill-neutral-500/70'
-        }
+        className={`
+          w-[14px]
+          xs:w-[20px]
+          h-[14px]
+          xs:h-[20px]
+          ${hasLiked ? 'fill-violet-500' : 'fill-neutral-500/70'}          
+        `}
       />
     </div>
    );

@@ -1,10 +1,8 @@
 'use client';
 
 import axios from "axios";  
-import { useCallback, useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { toast } from "react-hot-toast";
-
-import useChannelModal from "@hooks/useChannelModal";
 import useVideoModal from "@hooks/useVideoModal";
 
 import Modal from "./Modal";
@@ -27,7 +25,6 @@ const VideoModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [videos, setVideos] = useState([]); 
   const BASE_URL = 'https://youtube-v31.p.rapidapi.com/videos';
-  process.env.NEXT_PUBLIC_RAPID_API_KEY
 
   const [step, setStep] = useState(STEPS.FETCH)
 
@@ -40,7 +37,6 @@ const VideoModal = () => {
   })
 
   const vidId = watch('vidId');
-  const svideo = watch('svideo');
 
   const setCustomValue = (id, value) =>{
     setValue(id, value, {

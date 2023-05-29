@@ -67,7 +67,7 @@ const VideosTable = ({ videos }) => {
                                         
                                         <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{item?.snippet.channelTitle}</td>
 
-                                        <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{shortenNumber(item?.likes.length)} {item?.likes.length === '1' ? 'likes' : 'likes'}</td>
+                                        <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{shortenNumber(item?.likes.length)} {item?.likes.length === 1 ? 'like' : 'likes'}</td>
                                         
                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                             <div className="flex items-center gap-x-6">

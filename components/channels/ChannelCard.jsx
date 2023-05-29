@@ -19,7 +19,7 @@ const ChannelCard = ({ data, currentUser}) => {
 
         <div onClick={() => router.push(`/channels/${data?._id}`)} className="sm:gap-2 w-full">
           <div className=" flex flex-col items-center sm:items-start gap-1">
-            <div className=" flex flex-row gap-1  line-clamp-2 text-ellipsis overflow-hidden max-h-12">
+            <div className=" flex flex-row gap-1 items-center line-clamp-2 text-ellipsis overflow-hidden max-h-12">
               {data.snippet.title}
               <MdCheckCircle className="text-neutral-200" />
             </div>

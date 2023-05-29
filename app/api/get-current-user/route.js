@@ -5,13 +5,10 @@ export default async function handler(req, res) {
 
   if (session) {
     // Update session data
-    session.data = {
-      ...session.data,
-      myData: "Hello World"
-    };
+    
 
     // Save updated session data
-    await session.save();
+    //await session.save();
 
     res.send(session);
   } else {

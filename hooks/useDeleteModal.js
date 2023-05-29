@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 
-const useImageModal = create((set) => ({
+const useDeleteModal = create((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false })
 }));
 
-export default useImageModal;
+export default useDeleteModal;

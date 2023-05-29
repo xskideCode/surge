@@ -21,18 +21,18 @@ const SocialsModal = () => {
   const { data: session } = useSession();
 
   const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm({
-    defaultValues: {
-      instagram: '',
-      facebook: '',
-      twitter: '',
-      tiktok: '',
+    defaultValues: async () => {
+      const response = await fetch(`/api/user/${session?.user.id}`);
+      const data = await response.json();
+
+      return{
+        instagram: data.instagram,
+        facebook: data.facebook,
+        twitter: data.twitter,
+        tiktok: data.tiktok,
+      }
     },
   });
-
-  const instagram = watch('instagram');
-  const facebook = watch('facebook');
-  const twitter = watch('twitter');
-  const tiktok = watch('tiktok');
 
   const setCustomValue = (id, value) => {
     setValue(id, value, {

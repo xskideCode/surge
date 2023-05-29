@@ -11,46 +11,48 @@ const VideoCard = ({ data, currentUser}) => {
   const router = useRouter();
   return (
     <div
-      onClick={() => router.push(`/videos/${data?._id}`)}
-      className="col-span-1 cursor-pointer group"
+      className="col-span-1 "
     >
       <div className="flex flex-col gap-2 max-w-fit">
         <div
+          onClick={() => router.push(`/videos/${data?._id}`)}
           className="
           aspect-video 
-          w-full 
-          relative 
+          w-full  
           rounded-xl
+          cursor-pointer
         "
         >
           <Thumbnail large src={data.snippet.thumbnails?.maxres?.url || data.snippet.thumbnails?.medium?.url || data.snippet.thumbnails?.default?.url} />
-          <div
-            className="
-          absolute
-          -bottom-12
-          right-5
-          sm:right-3
-        "
-          >
-            <LikeButton listingId={data._id} currentUser={currentUser} />
-          </div>
+          
         </div>
-
-        <div className="grid grid-cols-7 grid-rows-2 font-semibold text-lg gap-2">
-          <div className="row-span-2 justify-self-center ">
+        <div className="grid grid-cols-7 grid-rows-2 font-semibold text-lg gap-2 relative">
+          <div className="row-span-2 justify-self-center cursor-pointer">
           <Avatar  medium  src={data.channelId.snippet.thumbnails.medium.url} />
           </div>
-          <div className=" col-span-5 row-span-2 max-w-[220px]">
-            <div className="text-sm line-clamp-2 text-ellipsis overflow-hidden max-h-12">
+          <div className="text-xs xs:text-sm col-span-5 row-span-2 max-w-[220px]">
+            <div onClick={() => router.push(`/videos/${data?._id}`)} className="line-clamp-2 text-ellipsis overflow-hidden max-h-12 cursor-pointer">
               {data.snippet.title}
             </div>
-            <div className="text-sm font-light text-neutral-400">
-              <div className="flex flex-row gap-1 items-center text-neutral-200">
+            <div className="font-light text-neutral-400">
+              <div className="flex flex-row gap-1 items-center text-neutral-200 cursor-pointer">
                 {data.snippet.channelTitle} 
                 <MdCheckCircle />
               </div>
               {shortenNumber(data.statistics.viewCount)} {data?.statistics.viewCount === '1' ? 'view' : 'views'}
+              <span className="mx-1">•</span>
+              {shortenNumber(data.likes.length)} {data?.likes.length === 1 ? 'like' : 'likes'}
             </div>
+          </div>
+          <div
+            className="
+              absolute
+              top-4
+              right-4
+              sm:right-3
+            "
+          >
+            <LikeButton currentVideo={data} userId={currentUser?._id || currentUser?.id} />
           </div>
         </div>
       </div>

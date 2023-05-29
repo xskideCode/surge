@@ -27,6 +27,7 @@ const VideoModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [videos, setVideos] = useState([]); 
   const BASE_URL = 'https://youtube-v31.p.rapidapi.com/videos';
+  process.env.NEXT_PUBLIC_RAPID_API_KEY
 
   const [step, setStep] = useState(STEPS.FETCH)
 
@@ -37,6 +38,7 @@ const VideoModal = () => {
 
     }
   })
+
 
   const vidId = watch('vidId');
   const svideo = watch('svideo');
@@ -64,7 +66,7 @@ const VideoModal = () => {
         id: vidId,
       },
       headers: {
-        'X-RapidAPI-Key': '9174af6bf5msh9090d340cbeac59p1fee4fjsn37ea34899877',
+        'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPID_API_KEY,
         'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com'
       }
     };
@@ -75,6 +77,7 @@ const VideoModal = () => {
       setCustomValue('svideo', response.data.items)
     } catch (error) {
       console.error(error);
+      console.log(API_KEY)
     }
     setStep((value) => value + 1);
     setIsLoading(false);

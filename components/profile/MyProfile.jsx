@@ -35,7 +35,7 @@ const MyProfile = () => {
   
         setUser(data1);
       } else {
-        setUserId(JSON.parse(sessionStorage.getItem("userId")))
+        setUserId(sessionStorage.getItem("userId"))
 
         const response = await fetch(`/api/user/${userId}`);
         const data1 = await response.json();

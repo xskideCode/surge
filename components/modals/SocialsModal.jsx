@@ -207,7 +207,6 @@ const SocialsModal = () => {
           type='button'
           label={`Cancel`}
           red   
-          outline    
           onClick={() => { socialsModal.onClose();}}          
         />
     </div>

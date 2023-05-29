@@ -28,11 +28,13 @@ const Button = ({
         transition
         w-full
         font-poppins
-        ${outline ? (red ? 'bg-red-500 ' : 'bg-transparent') : 'bg-purple-700'}
-        ${outline ? 'border-white' : 'border-purple-700'}
+        ${outline ? 'bg-transparent' : red ? 'bg-red-500 ' : 'bg-purple-700'}
+        ${outline ? 'border-white' : red ? 'border-red-500 ' : 'border-purple-700'}
         ${outline ? 'text-white' : 'text-white'}
         ${small ? 'text-sm' : 'text-md'}
         ${small ? 'py-1' : 'py-3'}
+        ${small ? 'px-1' : 'px-3'}
+        ${small ? 'rounded-md' : 'rounded-lg'}
         ${small ? 'font-light' : 'font-semibold'}
         ${small ? 'border-[1px]' : 'border-2'}
       `}

@@ -74,7 +74,6 @@ const ImageModal = () => {
           type='button'
           label={`Cancel`}
           red   
-          outline    
           onClick={() => { imageModal.onClose();}}          
         />
     </div>

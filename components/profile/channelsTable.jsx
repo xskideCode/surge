@@ -6,7 +6,7 @@ import { FaRegEdit } from 'react-icons/fa'
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import { MdDeleteOutline } from 'react-icons/md'
 
-function shortenNumber(str) {
+export function shortenNumber(str) {
     const num = Number(str);
     if (num >= 1000000) {
       return (num / 1000000).toFixed(1) + "m";

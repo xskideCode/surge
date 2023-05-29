@@ -12,7 +12,7 @@ export const GET = async (request) => {
 
       return new Response(JSON.stringify(videos), { status: 200 })
   } catch (error) {
-      throw new Error("Failed to fetch all videos", { status: 400 })
+      return new Response("Failed to fetch all videos", { status: 500 })
   }
 } 
 
@@ -25,41 +25,43 @@ export const POST = async (request) => {
     await connectToDB();
     
 
-    svideo.map(async (item) => {
-      if (typeof item === 'object' && item !== null && item.hasOwnProperty('id')) {
-       
-
-
-        const existingVideo = await Video.findOne({ videoId: item.id });
-
-        if(existingVideo)  throw new Error("Video already exist.", { status: 400 });
-
-        const user = await User.findOne({ _id: item.userId });
-
-        const channel = await Channel.findOne({ channelId: item.snippet.channelId });
+    for (const item of svideo) {
+      try {
         
-        if(!channel)  throw new Error("Invalid video. No corresponding channel found. Add the video's channel first", { status: 400 });
-        
-        if(!user.channelIds.includes(channel._id))  throw new Error("Attention! The video you uploaded does not match any of your registered channels.", { status: 400 });
-        
-        console.log(channel);
+        if (typeof item === 'object' && item !== null && item.hasOwnProperty('id')) {      
 
-        const video = new Video({ videoId: item.id, snippet: item.snippet, statistics: item.statistics , userId: item.userId, channelId: channel._id });
-        
-        const newVideo = await Video.create(video); 
+          const existingVideo = await Video.findOne({ videoId: item.id });
 
-        if (channel) {
-          channel.videoIds.push(newVideo._id); // Push the new Video's _id to the Channel's VideoId array
-          await channel.save(); // Save the changes to the Channel document
-        } else {
-          throw new Error("Channel not found.", { status: 404 });
+          if(existingVideo)  return new Response("Video already exist.", { status: 400 });
+
+          const user = await User.findOne({ _id: item.userId });
+
+          const channel = await Channel.findOne({ channelId: item.snippet.channelId });
+          
+          if(!channel)  return new Response("No corresponding channel found. Add the video's channel first", { status: 400 });
+          
+          if(!user.channelIds.includes(channel._id))  return new Response("Attention! The video you uploaded does not match any of your registered channels.", { status: 400 });
+          
+          console.log(channel);
+
+          const video = new Video({ videoId: item.id, snippet: item.snippet, statistics: item.statistics , userId: item.userId, channelId: channel._id });
+          
+          const newVideo = await Video.create(video); 
+
+          if (channel) {
+            channel.videoIds.push(newVideo._id); // Push the new Video's _id to the Channel's VideoId array
+            await channel.save(); // Save the changes to the Channel document
+          } else {
+            return new Response("Channel not found.", { status: 404 });
+          }
         }
 
-
-      } else {
-        throw new Error("Invalid Video received", { status: 500 });
+      } catch (error) {      
+        return new Response(error.message, { status: error.status });
       }
-    });
+    };
+    
+    if (svideo.length < 1) return new Response("Invalid Video", { status: 500 });
     
     return new Response("Successfully created the Video", { status: 201 });
 

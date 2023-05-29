@@ -6,6 +6,7 @@ import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import Button from '@components/Button'
 import Thumbnail from '@components/Thumbnail'
 import useVideoModal from '@hooks/useVideoModal'
+import { shortenNumber } from './channelsTable'
 
 const VideosTable = ({ videos }) => {
     const videoModal = useVideoModal();
@@ -66,7 +67,7 @@ const VideosTable = ({ videos }) => {
                                         
                                         <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{item?.snippet.channelTitle}</td>
 
-                                        <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{item?.likes.length} {item?.likes.length === '1' ? 'likes' : 'likes'}</td>
+                                        <td className="px-4 py-4 text-sm text-gray-300 whitespace-nowrap">{shortenNumber(item?.likes.length)} {item?.likes.length === '1' ? 'likes' : 'likes'}</td>
                                         
                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                             <div className="flex items-center gap-x-6">

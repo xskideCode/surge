@@ -39,7 +39,6 @@ const VideoModal = () => {
     }
   })
 
-
   const vidId = watch('vidId');
   const svideo = watch('svideo');
 
@@ -51,19 +50,27 @@ const VideoModal = () => {
     });
   }
 
+  const extractVideoId = (url) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  }
+
   const onBack = () => {
     setStep((value) => value - 1);
   };
 
   const onNext = async() => {
     setIsLoading(true);
+
+    const vidid = vidId.startsWith('http') ? extractVideoId(vidId) : vidId;
     
     const options = {
       method: 'GET',
       url: BASE_URL,
       params: {
         part: 'contentDetails,snippet,statistics',
-        id: vidId,
+        id: vidid,
       },
       headers: {
         'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPID_API_KEY,
@@ -77,7 +84,6 @@ const VideoModal = () => {
       setCustomValue('svideo', response.data.items)
     } catch (error) {
       console.error(error);
-      console.log(API_KEY)
     }
     setStep((value) => value + 1);
     setIsLoading(false);
@@ -178,6 +184,12 @@ const VideoModal = () => {
             </div>
             </div>
         ))}
+        {(videos.length < 1 )&& (
+          <div className="text-red-500">
+            No video ...<br/> 
+            Please Try Again
+          </div>
+        )}
         </div>
       </div>
     )
@@ -190,7 +202,6 @@ const VideoModal = () => {
           type='button'
           label={`Cancel`}
           red   
-          outline    
           onClick={() => { videoModal.onClose();}}          
         />
     </div>

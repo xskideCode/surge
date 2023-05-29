@@ -157,7 +157,6 @@ const ChannelModal = () => {
             label={`Log Out`}  
             disabled={isLoading} 
             red
-            outline
             onClick={async () => {
               signOut({ callbackUrl: '/' });
               
@@ -177,7 +176,6 @@ const ChannelModal = () => {
           label={`Cancel`}
           disabled={isLoading}
           red   
-          outline    
           onClick={() => { channelModal.onClose();}}          
         />
     </div>

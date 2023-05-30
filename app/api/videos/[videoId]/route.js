@@ -1,11 +1,11 @@
 import Video from "@models/video";
+import { connectToDB } from "@utils/database";
 
 
 export const GET = async (request, { params }) => {
   try {
     await connectToDB();
-
-    const video = await Video.findById(params.id).populate('channelId').populate('userId');
+    const video = await Video.findById(params.videoId).populate('channelId').populate('userId');
 
     if (!video) return new Response("Video Not Found", { status: 404 });
 

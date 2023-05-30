@@ -1,3 +1,6 @@
+'use client';
+
+import Container from "@components/Container";
 import VideoInfo from "@components/videos/VideoInfo";
 import VideoRecList from "@components/videos/VideoRecList";
 import { useParams } from "next/navigation";
@@ -7,15 +10,18 @@ import ReactPlayer from "react-player";
 const VideoPage = () => {
   const params = useParams()
   const [video, setVideo] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const getCurrentVideo = async () => {
+      if (video) {
         setIsLoading(true);
         const response = await fetch(`/api/videos/${params.videoId}`);
         const data = await response.json();
   
         setVideo(data);
         setIsLoading(false);
+      }
     };
 
     getCurrentVideo();
@@ -23,43 +29,52 @@ const VideoPage = () => {
   }, []);
 
   return (
-    <Container>
       <div
         className="
           max-w-screen-lg 
           mx-auto
+          w-full
         "
       >
-        <div className="flex flex-col gap-6">
-          <div className="relative pb-[56.25%] w-full ">
-            <ReactPlayer url={`https://www.youtube.com/watch?v=${video.videoId}`} className="absolute top-0 left-0" controls width='100%'       height='100%' />
+        <div className="flex flex-col gap-2 w-full">
+          <div className="sticky aspect-video ">
+            <ReactPlayer url={`https://www.youtube.com/watch?v=${video.videoId}`} className="" controls width='100%'       height='100%' />
           </div>
           <div
             className="
               grid 
-              grid-cols-1 
-              md:grid-cols-7 
-              md:gap-10 
-              mt-6
+              grid-cols-3 
+              md:grid-cols-7
+              gap-2
             "
           >
-            <VideoInfo
-            />
             <div
               className="
-                order-first 
-                mb-10 
-                md:order-last 
+              col-span-3
+              md:col-span-4
+              lg:col-span-5
+              "
+            >
+              <VideoInfo
+                data={video}
+                user={video.userId}
+                channel={video.channelId}
+              />
+            </div>
+            <div
+              className="
+                col-span-3
                 md:col-span-3
+                lg:col-span-2
               "
             >
               <VideoRecList
+                data={video}
               />
             </div>
           </div>
         </div>
       </div>
-    </Container>
   );
 };
 

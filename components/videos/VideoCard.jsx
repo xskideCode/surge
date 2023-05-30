@@ -24,12 +24,12 @@ const VideoCard = ({ data, currentUser, flexRow }) => {
           ${flexRow ? 'max-w-[117px] sm:max-w-[170px] md:max-w-[129px]' : ''}
         `}
         >
-          <Thumbnail large src={data.snippet.thumbnails?.maxres?.url || data.snippet.thumbnails?.medium?.url || data.snippet.thumbnails?.default?.url} />
+          <Thumbnail large src={data?.snippet?.thumbnails?.maxres?.url || data?.snippet?.thumbnails?.medium?.url || data?.snippet?.thumbnails?.default?.url} />
           
         </div>
         <div className="grid grid-cols-7 grid-rows-2 font-semibold text-lg gap-2 relative">
           <div className={`row-span-2 justify-self-center cursor-pointer ${flexRow ? 'hidden' : ''}`}>
-          <Avatar  medium  src={data.channelId.snippet.thumbnails.medium.url} />
+          <Avatar  medium onClick={() => router.push(`/channels/${data?.channelId?._id}`)}  src={data.channelId?.snippet?.thumbnails.medium.url} />
           </div>
           <div 
             className={`
@@ -49,16 +49,16 @@ const VideoCard = ({ data, currentUser, flexRow }) => {
                 cursor-pointer
               "
             >
-              {data.snippet.title}
+              {data?.snippet?.title}
             </div>
             <div className="font-light text-neutral-400">
-              <div className="flex flex-row gap-1 items-center text-neutral-200 cursor-pointer">
-                {data.snippet.channelTitle} 
+              <div onClick={() => router.push(`/channels/${data?.channelId?._id}`)} className="flex flex-row gap-1 items-center text-neutral-200 cursor-pointer">
+                {data?.snippet?.channelTitle} 
                 <MdCheckCircle />
               </div>
-              {shortenNumber(data.statistics.viewCount)} {data?.statistics.viewCount === '1' ? 'view' : 'views'}
+              {shortenNumber(data?.statistics?.viewCount)} {data?.statistics?.viewCount === '1' ? 'view' : 'views'}
               <span className="mx-1">•</span>
-              {shortenNumber(data.likes.length)} {data?.likes.length === 1 ? 'like' : 'likes'}
+              {shortenNumber(data?.likes?.length)} {data?.likes?.length === 1 ? 'like' : 'likes'}
             </div>
           </div>
           <div

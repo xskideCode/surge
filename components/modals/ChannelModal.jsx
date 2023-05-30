@@ -54,7 +54,7 @@ const ChannelModal = () => {
     console.log(data)
     console.log('payload')
  
-    axios.post('/api/channel', data)
+    axios.post('/api/channels', data)
       .then(() => {
         channelModal.onClose();
       })      

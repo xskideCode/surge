@@ -12,7 +12,7 @@ const ChannelsPage = () => {
 
 
   const fetchChannels = async () => {
-    const response = await fetch("/api/channel");
+    const response = await fetch("/api/channels");
     const data = await response.json();
 
     setAllChannels(data);

@@ -7,11 +7,9 @@ import { useSession } from "next-auth/react";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
-import useTempChannels from "@hooks/useTempChannels";
 
 const Nav = () => {
   const { data: session } = useSession();
-  const tempChannels = useTempChannels();
 
   useEffect(() => {
     const user = session?.user    

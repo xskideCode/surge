@@ -7,8 +7,10 @@ import { shortenNumber } from "@components/profile/channelsTable";
 import React, { useState } from "react";
 import { MdCheckCircle, MdOutlineThumbUp, MdThumbUp } from "react-icons/md";
 import Socials from "@components/home/Socials";
+import { useRouter } from "next/navigation";
 
 const VideoInfo = ({ data, user, channel }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -22,7 +24,7 @@ const VideoInfo = ({ data, user, channel }) => {
       </div>
       <div className="flex flex-row justify-between mb-4">
         <div className="flex flex-row gap-2">
-          <div onClick={() => router.push(`/channels/${channel?._id}`)}>
+          <div onClick={() => router.push(`/channels/${channel?._id}`)} className="cursor-pointer">
             <Avatar
               medium
               src={
@@ -43,7 +45,7 @@ const VideoInfo = ({ data, user, channel }) => {
               max-h-12
               "
           >
-            <div className="flex flex-row font-semibold items-center gap-1">
+            <div onClick={() => router.push(`/channels/${channel?._id}`)} className="flex flex-row font-semibold items-center gap-1 cursor-pointer">
               {channel?.snippet?.title}
               <MdCheckCircle className="text-neutral-200" />
             </div>
@@ -58,7 +60,7 @@ const VideoInfo = ({ data, user, channel }) => {
               small
               outline
               onClick={() => {
-                const url = `https://www.youtube.com/channel/${data.channelId}?sub_confirmation=1`;
+                const url = `https://www.youtube.com/channel/${channel.channelId}?sub_confirmation=1`;
                 window.open(url, "_blank");
               }}
             />

@@ -31,7 +31,7 @@ const VideoPage = () => {
   return (
       <div
         className="
-          max-w-screen-lg 
+          max-w-screen-xl
           mx-auto
           w-full
         "

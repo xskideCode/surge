@@ -2,68 +2,98 @@ import Promotion from "@models/promotion";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
 
+export const GET = async (request) => {
+  try {
+      await connectToDB()
+
+      const promotions = await Promotion.find({}).populate('userId')
+
+      return new Response(JSON.stringify(promotions), { status: 200 })
+  } catch (error) {
+      throw new Error("Failed to fetch all promotions", { status: 400 })
+  }
+} 
+
 export const POST = async (request) => {
   const body = await request.json();
-  const { channel } = body;
+  const channel = body;
 
   try {
     await connectToDB();
 
-    // Check if there is an existing promotion
-    const existingPromotion = await Promotions.findOne({ channel: channel });
-    if (existingPromotion) {
-      return {
-        statusCode: 400,
-        body: "Promotion already exists",
-      };
+    if (!channel.plan) {
+      return new Response("Plan missing", { status: 400 });
     }
 
-    // Count the documents in the Promotions model
-    const promotionCount = await Promotions.countDocuments();
+    const existingPromotion = await Promotion.findOne({
+      channelId: channel.channelId,
+    });
+
+    if (existingPromotion) {
+      return new Response("Promotion already exists", { status: 400 });
+    }
+
+    const promotionCount = await Promotion.countDocuments();
     if (promotionCount >= 15) {
-      // Add 'status' key with value 'pending' to the channel object
       channel.status = "pending";
 
-      // Find the promotion with the largest 'expireAt' date
-      const largestExpireAtPromotion = await Promotions.findOne().sort({
-        expireAt: -1,
-      });
-      if (largestExpireAtPromotion) {
-        const currentDate = new Date();
-        const daysToAdd = channel.plan === "3-Day" ? 3 : 7;
-        const newExpireAt = new Date(largestExpireAtPromotion.expireAt);
-        newExpireAt.setDate(newExpireAt.getDate() + daysToAdd);
-        channel.expireAfterSeconds = newExpireAt;
+      var latestPromoDate = await Promotion.findOne()
+        .sort({
+          expireAt: -1,
+        })
+        .limit(1)[0].expireAt;
+      if (latestPromoDate) {
+        var currentDate = new Date();
+        const millisecondsToAdd =
+          channel.plan === "3-Day"
+            ? 3 * 24 * 60 * 60 * 1000
+            : 7 * 24 * 60 * 60 * 1000;
+        var futureDate = new Date(
+          latestPromoDate.getTime() - currentDate.getTime()
+        );
+        var expireAfterSeconds =
+          (futureDate.getTime() + millisecondsToAdd) / 1000;
       }
+      console.log("more than 15 promos");
     } else {
-      // Add days to expireAfterSeconds based on channel.plan
-      const daysToAdd = channel.plan === "3-Day" ? 3 : 7;
-      const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + daysToAdd);
-      channel.expireAfterSeconds = currentDate;
+      const millisecondsToAdd =
+        channel.plan === "3-Day"
+          ? 3 * 24 * 60 * 60 * 1000
+          : 7 * 24 * 60 * 60 * 1000;
+      var expireAfterSeconds = millisecondsToAdd / 1000;
     }
 
-    // Find if there are 2 existing promotions with the same userId as channel.userId
-    const existingPromotionsCount = await Promotions.countDocuments({
+    const existingPromotionsCount = await Promotion.countDocuments({
       userId: channel.userId,
     });
+
     if (existingPromotionsCount >= 2) {
-      return {
-        statusCode: 400,
-        body: "User can only have 2 promotions at a time",
-      };
+      return new Response("User can only have 2 promotions at a time", {
+        status: 400,
+      });
     }
 
-    // Save the channel to the Promotions model
-    const newPromotion = new Promotions({ channel });
+    
+    const newPromotion = new Promotion({
+      ...channel,
+      createdAt: new Date().toISOString(),
+      expireAt: new Date(Date.now() + expireAfterSeconds * 1000).toISOString(),
+    });
+    
+    const user = await User.findOne({ _id: channel.userId });
+
     await newPromotion.save();
 
-    // Return success response if everything is successful
-    return {
-      statusCode: 200,
-      body: "Promotion created successfully",
-    };
+    if (user) {
+      user.promotions.push(newPromotion);
+      await user.save(); // Save the changes to the user document
+    } else {
+      return new Response("User not found.", { status: 404 });
+    }
+    
+
+    return new Response("Promotions created successfully", { status: 200 });
   } catch (error) {
-    res.status(409).json({ Promotion: error.Promotion });
+    return new Response(error, { status: 409 });
   }
 };

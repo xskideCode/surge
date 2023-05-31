@@ -1,6 +1,8 @@
 "use client";
 
 import Button from "@components/Button";
+import CheckoutModal from "@components/modals/CheckoutModal";
+import useCheckoutModal from "@hooks/useCheckoutModal";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -10,10 +12,11 @@ import { MdDone } from "react-icons/md";
 
 const Checkout = () => {
   const searchParams = useSearchParams();
-  const plan = searchParams.get('plan');
+  const plan = searchParams.get("plan");
   const { data: session, status } = useSession();
-  const [user, setUser] = useState({})
-  
+  const [user, setUser] = useState({});
+  const checkoutModal = useCheckoutModal();
+
   const [channels, setChannels] = useState([]);
 
   const [selectedChannel, setSelectedChannel] = useState(null);
@@ -33,16 +36,21 @@ const Checkout = () => {
   }, []);
 
   const handleChannelClick = (channel) => {
-    setSelectedChannel(channel);
+    // setSelectedChannel(channel);
+    // selectedChannel.plan = plan;
+    setSelectedChannel({ ...channel, plan });
   };
 
   function handlePurchaseClick() {
     if (!selectedChannel) {
-      toast.error('Please select a channel.', { style: { background: '#333', color: '#fff' } });
+      toast.error("Please select a channel.", {
+        style: { background: "#333", color: "#fff" },
+      });
       return;
     }
-    toast.success('Purchase successful',{ style: { background: '#333', color: '#fff' } });
     // show popup with channel details and confirm/cancel button
+    checkoutModal.onOpen();
+    
   }
 
   return (
@@ -71,18 +79,9 @@ const Checkout = () => {
                     Select channel
                   </span>
                   {channels?.map((channel) => (
-                    <>
-                    <input
-                      type="radio"
-                      name="channel"
-                      value={channel.id}
-                      checked={selectedChannel === channel}
-                      onChange={() => handleChannelClick(channel)}
-                      className="peer hidden"
-                    />
                     <label
-                    key={channel.id}
-                    className={`
+                      key={channel.id}
+                      className={`
                       flex
                       items-center
                       flex-row
@@ -94,13 +93,32 @@ const Checkout = () => {
                       hover:bg-[#323537]
                       overflow-x-auto
                       scrollbar-thin
-                      peer-checked:outline-none
-                      peer-checked:ring-2
-                      peer-checked:ring-offset-2
-                      peer-checked:ring-gray-500
+                      focus:outline-none
+                      focus:ring-2
+                      focus:ring-offset-2
+                      focus:ring-gray-500
+                      hover:outline-none
+                      hover:ring-2
+                      hover:ring-offset-2
+                      hover:ring-gray-500
                       ring-offset-slate-900
+                      transition
+                      duration-200
+                      ${
+                        selectedChannel === channel
+                          ? "outline-none ring-2 ring-offset-2 ring-gray-500 ring-offset-slate-900"
+                          : ""
+                      }
                     `}
-                  >
+                    >
+                      <input
+                        type="radio"
+                        name="channel"
+                        value={channel.id}
+                        checked={selectedChannel === channel}
+                        onChange={() => handleChannelClick(channel)}
+                        className="hidden"
+                      />
                       <img
                         src={channel.snippet.thumbnails.default.url}
                         alt={channel.snippet.title}
@@ -118,7 +136,6 @@ const Checkout = () => {
                         </div>
                       </div>
                     </label>
-                    </>
                   ))}
                 </div>
               )}
@@ -126,7 +143,7 @@ const Checkout = () => {
                 <MdDone />
                 <span class="text-white pl-1">3</span> Day promotion
               </p>
-              <Button label={"Purchase"} onClick={handlePurchaseClick}/>
+              <Button label={"Purchase"} onClick={handlePurchaseClick} />
               <div class="absolute top-3 right-4">
                 <p class="bg-purple-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">
                   Popular
@@ -187,6 +204,9 @@ const Checkout = () => {
           </div>
         )}
       </div>
+      {selectedChannel && (
+        <CheckoutModal channel={selectedChannel} />
+      )}
     </div>
   );
 };

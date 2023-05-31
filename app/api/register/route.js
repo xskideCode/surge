@@ -20,6 +20,6 @@ export const POST = async (request) => {
     await user.save();
     return new Response(JSON.stringify(user), { status: 201 });    
   } catch (error) {
-    return new Response("Failed to register user", { status: 500 }); 
+    return new Response(error, { status: 500 }); 
   }
 }

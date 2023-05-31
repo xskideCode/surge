@@ -10,7 +10,17 @@ const PromotionSchema = new Schema(
       customUrl: String,
       publishedAt: String,
       thumbnails: {
+        default: {
+          url: String,
+          width: Number,
+          height: Number,
+        },
         high: {
+          url: String,
+          width: Number,
+          height: Number,
+        },
+        medium: {
           url: String,
           width: Number,
           height: Number,
@@ -22,6 +32,9 @@ const PromotionSchema = new Schema(
       subscriberCount: String,
       hiddenSubscriberCount: Boolean,
       videoCount: String,
+    },
+    channelId: {
+      type: String,
     },
     userId: {
       type: Schema.Types.ObjectId,

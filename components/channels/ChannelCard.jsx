@@ -14,22 +14,21 @@ const ChannelCard = ({ data, page }) => {
         col-span-1
         cursor-pointer
         group
-        
         sm:mb-0
         pt-5
         p-4
         rounded-md
-        ${page ? 'bg-transparent mb-2' : 'bg-zinc-800 mb-8'} 
+        ${page ? 'bg-transparent mb-2 w-[85vw] xs:w-auto' : 'bg-zinc-800 mb-8'} 
       `}
     >
       <div 
         className={`
           flex          
           sm:flex-row
-          gap-2
           w-full
+          gap-2          
           items-center
-          ${page ? 'flex-col xs:flex-row' : 'flex-col'}
+          ${page ? 'flex-col xs:flex-row ' : 'flex-col'}
         `}
       >
         <div onClick={() => router.push(`/channels/${data?._id}`)}>
@@ -54,15 +53,18 @@ const ChannelCard = ({ data, page }) => {
               className={`
                 flex
                 flex-row
+                flex-wrap
                 gap-1
                 items-center
+                justify-center
                 text-neutral-400
                 ${page ? 'text-xs' : 'text-sm'}
               `}
             >
-             {data?.snippet?.customUrl} 
+             {data?.snippet?.customUrl}
               <span>•</span>
-              {shortenNumber(data?.statistics?.subscriberCount)} {data?.statistics?.subscriberCount === '1' ? 'subscriber' : 'subscribers'}
+              <span className=" whitespace-nowrap">
+              {shortenNumber(data?.statistics?.subscriberCount)} {data?.statistics?.subscriberCount === '1' ? 'subscriber' : 'subscribers'}</span>
             </div>
             <div 
               className={`                

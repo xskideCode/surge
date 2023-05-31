@@ -18,7 +18,6 @@ const UserContent = () => {
         const data1 = await response.json();
   
         setUser(data1);
-        console.log(data1);
       } 
     };
  

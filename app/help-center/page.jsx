@@ -2,7 +2,7 @@
 
 import Button from '@components/Button';
 import Heading from '@components/Heading';
-import Inputs from '@components/inputs/Inputs';
+import Inputs, { validateEmail, validateName } from '@components/inputs/Inputs';
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
@@ -25,8 +25,7 @@ const HelpCenter = () => {
 
     axios.post('/api/message', data)
       .then(() => {
-        messageModal.onClose();
-        toast.success('Message sent successfully',{ style: { background: '#333', color: '#fff' } });
+        toast.success('Message sent',{ style: { background: '#333', color: '#fff' } });
       })
       .catch((error) => {
         toast.error('Something went wrong.', { style: { background: '#333', color: '#fff' } });
@@ -46,15 +45,16 @@ const HelpCenter = () => {
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">   
           <div className="sm:col-span-2">
             <label htmlFor="subject" className={`block text-sm font-semibold leading-6  ${errors['name'] ? 'text-rose-500 animate-shake' : 'text-gray-50'}`}>
-              Username
+              Name
             </label>
             <div className="mt-2.5">
               <input
                 type="text"
                 name="name"
-                { ...register('name' , true )}
+                { ...register('name' , {required: "Name is required", validate: validateName})}
                 id="name"
-                placeholder="Username"
+                placeholder="Name"
+                disabled={isLoading}
                 className={`
                   block
                   w-full
@@ -80,6 +80,13 @@ const HelpCenter = () => {
                 `}
               />
             </div>
+            {errors['name'] && (
+              <>
+                {errors['name'].message && (
+                  <small className='text-rose-500'>{errors['name'].message}</small>
+                )} 
+              </>
+            )}
           </div>
           <div className="sm:col-span-2">
             <label htmlFor="email" className={`block text-sm font-semibold leading-6 ${errors['email'] ? 'text-rose-500 animate-shake' : 'text-gray-50'}`}>
@@ -89,10 +96,11 @@ const HelpCenter = () => {
               <input
                 type="email"
                 name="email"
-                { ...register('email', true)}
+                { ...register('email', {required: "Email Address is required", validate: validateEmail})}
                 id="email"
                 autoComplete="email"
                 placeholder="Enter your email so we can contact you back."
+                disabled={isLoading}
                 className={`
                   block
                   w-full
@@ -118,6 +126,13 @@ const HelpCenter = () => {
                 `}
               />
             </div>
+            {errors['email'] && (
+              <>
+                {errors['email'].message && (
+                  <small className='text-rose-500'>{errors['email'].message}</small>
+                )} 
+              </>
+            )}
           </div>
           
           <div className="sm:col-span-2">
@@ -128,9 +143,10 @@ const HelpCenter = () => {
               <textarea
                 name="message"
                 id="message"
-                { ...register('message', true )}
+                { ...register('message', {required: "Message is required"} )}
                 rows={4}
                 defaultValue={''}
+                disabled={isLoading}
                 className={`
                   block
                   w-full
@@ -156,14 +172,21 @@ const HelpCenter = () => {
               `}
               />
             </div>
+            {errors['message'] && (
+                <>
+                  {errors['message'].message && (
+                    <small className='text-rose-500'>{errors['message'].message}</small>
+                  )} 
+                </>
+              )}
           </div>
-          
         </div>
         <div className="mt-10">
         <Button
           type='button'
           label={`Let's talk`}
-          onClick={handleSubmit(onSubmit)}          
+          onClick={handleSubmit(onSubmit)} 
+          disabled={isLoading}         
         />
         </div>
       </form>

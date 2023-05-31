@@ -1,17 +1,36 @@
 "use client";
 
 import Button from "@components/Button";
+import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 import { MdDone } from "react-icons/md";
 
 const Checkout = () => {
-  const type = "2";
-
+  const searchParams = useSearchParams();
+  const plan = searchParams.get('plan');
+  const { data: session, status } = useSession();
+  const [user, setUser] = useState({})
   
   const [channels, setChannels] = useState([]);
 
   const [selectedChannel, setSelectedChannel] = useState(null);
+
+  const getCurrentUser = async () => {
+    if (session?.user) {
+      const response = await fetch(`/api/user/${session.user.id}`);
+      const data = await response.json();
+
+      setUser(data);
+      setChannels(data.channels);
+    }
+  };
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
 
   const handleChannelClick = (channel) => {
     setSelectedChannel(channel);
@@ -19,10 +38,10 @@ const Checkout = () => {
 
   function handlePurchaseClick() {
     if (!selectedChannel) {
-      alert("Please select a channel.");
+      toast.error('Please select a channel.', { style: { background: '#333', color: '#fff' } });
       return;
     }
-
+    toast.success('Purchase successful',{ style: { background: '#333', color: '#fff' } });
     // show popup with channel details and confirm/cancel button
   }
 
@@ -34,7 +53,7 @@ const Checkout = () => {
             Complete Your Purchase
           </h2>
         </div>
-        {type === "1" && (
+        {plan === "3-Day" && (
           <div class="pt-24 flex">
             <div class="flex flex-col justify-around w-72 h-[400px] m-auto px-8 pt-9 pb-4 bg-[#27292b] text-center rounded-3xl text-white  shadow-xl border-white transform scale-125 ">
               <h1 class="text-white font-semibold text-2xl">3-Day Plan</h1>
@@ -47,16 +66,41 @@ const Checkout = () => {
               </div>
               <hr class="mt-2 border-1 border-gray-600" />
               {channels && (
-                <div className="grid justify-center bg-[#212325] rounded-[20px] mt-4 w-42 h-30 overflow-auto scrollbar-thin">
+                <div className="grid justify-center bg-[#212325] rounded-[20px] pb-4 mt-4 w-42 h-30 overflow-auto scrollbar-thin">
                   <span class="text-gray-400 font-light text-xs m-2">
                     Select channel
                   </span>
                   {channels?.map((channel) => (
-                    <button
-                      key={channel.id}
-                      onClick={() => handleChannelClick(channel)}
-                      className="flex items-center flex-row h-12 my-2 p-1 rounded-lg hover:bg-[#323537] overflow-x-auto scrollbar-thin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:ring-offset-slate-900"
-                    >
+                    <>
+                    <input
+                      type="radio"
+                      name="channel"
+                      value={channel.id}
+                      checked={selectedChannel === channel}
+                      onChange={() => handleChannelClick(channel)}
+                      className="peer hidden"
+                    />
+                    <label
+                    key={channel.id}
+                    className={`
+                      flex
+                      items-center
+                      flex-row
+                      h-12
+                      my-2
+                      px-2
+                      p-1
+                      rounded-lg
+                      hover:bg-[#323537]
+                      overflow-x-auto
+                      scrollbar-thin
+                      peer-checked:outline-none
+                      peer-checked:ring-2
+                      peer-checked:ring-offset-2
+                      peer-checked:ring-gray-500
+                      ring-offset-slate-900
+                    `}
+                  >
                       <img
                         src={channel.snippet.thumbnails.default.url}
                         alt={channel.snippet.title}
@@ -73,7 +117,8 @@ const Checkout = () => {
                           </p>
                         </div>
                       </div>
-                    </button>
+                    </label>
+                    </>
                   ))}
                 </div>
               )}
@@ -81,7 +126,7 @@ const Checkout = () => {
                 <MdDone />
                 <span class="text-white pl-1">3</span> Day promotion
               </p>
-              <Button label={"Purchase"} />
+              <Button label={"Purchase"} onClick={handlePurchaseClick}/>
               <div class="absolute top-3 right-4">
                 <p class="bg-purple-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">
                   Popular
@@ -90,7 +135,7 @@ const Checkout = () => {
             </div>
           </div>
         )}
-        {type === "2" && (
+        {plan === "Weekly" && (
           <div class="pt-24 flex">
             <div class="flex flex-col justify-around w-72 h-[400px] m-auto p-8 bg-[#27292b] text-center rounded-3xl text-white  shadow-xl border-white transform scale-125 ">
               <h1 class="text-white font-semibold text-2xl">Weekly Plan</h1>
@@ -103,7 +148,7 @@ const Checkout = () => {
               </div>
               <hr class="mt-2 border-1 border-gray-600" />
               {channels && (
-                <div className="grid justify-center bg-[#212325] rounded-[20px] mt-4 w-42 h-30 overflow-auto scrollbar-thin">
+                <div className="grid justify-center bg-[#212325] rounded-[20px] pb-4 mt-4 w-42 h-30 overflow-auto scrollbar-thin">
                   <span class="text-gray-400 font-light text-xs m-2">
                     Select channel
                   </span>
@@ -111,7 +156,7 @@ const Checkout = () => {
                     <button
                       key={channel.id}
                       onClick={() => handleChannelClick(channel)}
-                      className="flex items-center flex-row h-12 my-2 p-1 rounded-lg hover:bg-[#323537] overflow-x-auto scrollbar-thin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:ring-offset-slate-900"
+                      className="flex items-center flex-row h-12 my-2 px-2 p-1 rounded-lg hover:bg-[#323537] overflow-x-auto scrollbar-thin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:ring-offset-slate-900"
                     >
                       <img
                         src={channel.snippet.thumbnails.default.url}
@@ -137,7 +182,7 @@ const Checkout = () => {
                 <MdDone />
                 <span class="text-white pl-1">7</span> Day promotion
               </p>
-              <Button label={"Purchase"} />
+              <Button label={"Purchase"} onClick={handlePurchaseClick} />
             </div>
           </div>
         )}

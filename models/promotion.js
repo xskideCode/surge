@@ -27,8 +27,11 @@ const PromotionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    type: {
-      type: Number,
+    plan: {
+      type: String,
+    },
+    status: {
+      type: String,
     },
     expireAt: {
       type: Date,

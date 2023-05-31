@@ -1,27 +1,11 @@
 'use client';
 
 import Button from '@components/Button';
-import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation';
 
 const Pricing = () => {
-  const [type, setType]= useState('');
-
-  useEffect(() => {
-    if (type === '1') {
-      navigate(`/checkout?type=${type}`);
-    }
-    else if (type === '2') {
-      navigate(`/checkout?type=${type}`);
-    }
-  }, [type]);
-
-  const checkout = () => {
-    
-  }
-  const checkout1 = () => {
-    
-  }
-
+  const router = useRouter();
+  
   return (
       <div className="py-10 sm:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -49,6 +33,7 @@ const Pricing = () => {
                 <Button
                   label={'Promote'}
                   small
+                  onClick={() => router.push(`/checkout?plan=3-Day`)}
                 />
               </div>
             </div>
@@ -72,6 +57,7 @@ const Pricing = () => {
                 <Button
                   label={'Promote'}
                   small
+                  onClick={() => router.push(`/checkout?plan=Weekly`)}
                   />
               </div>
             </div>

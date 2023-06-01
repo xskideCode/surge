@@ -1,14 +1,32 @@
+'use client';
+
 import Avatar from "@components/Avatar";
 import LikeButton from "@components/LikeButton";
 import Thumbnail from "@components/Thumbnail";
 import { shortenNumber } from "@components/profile/channelsTable";
+import useLike from "@hooks/useLike";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
 
 const VideoCard = ({ data, currentUser, flexRow }) => {
   const router = useRouter();
+  const userId = currentUser?._id || currentUser?.id
+  
+  const { hasLiked, likeCount, toggleLike } = useLike({
+    userId,
+    currentVideo: data
+  });
+
+  const [displayedLikeCount, setDisplayedLikeCount] = useState(data.likes.length);
+
+
+  useEffect(() => {
+    setDisplayedLikeCount(likeCount);
+    console.log(displayedLikeCount);
+  }, [hasLiked]);
+
   return (
     <div
       className="col-span-1 "
@@ -58,10 +76,11 @@ const VideoCard = ({ data, currentUser, flexRow }) => {
               </div>
               {shortenNumber(data?.statistics?.viewCount)} {data?.statistics?.viewCount === '1' ? 'view' : 'views'}
               <span className="mx-1">•</span>
-              {shortenNumber(data?.likes?.length)} {data?.likes?.length === 1 ? 'like' : 'likes'}
+              {shortenNumber(displayedLikeCount)} {displayedLikeCount === 1 ? 'like' : 'likes'}
             </div>
           </div>
           <div
+            onClick={toggleLike}
             className={`
               absolute
               top-4
@@ -70,7 +89,7 @@ const VideoCard = ({ data, currentUser, flexRow }) => {
               ${flexRow ? 'hidden' : '' }
             `}
           >
-            <LikeButton currentVideo={data} userId={currentUser?._id || currentUser?.id} />
+            <LikeButton currentVideo={data} userId={currentUser?._id || currentUser?.id} hasLiked={hasLiked}/>
           </div>
         </div>
       </div>

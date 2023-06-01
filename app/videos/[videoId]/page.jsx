@@ -1,15 +1,16 @@
 'use client';
 
-import Container from "@components/Container";
 import VideoInfo from "@components/videos/VideoInfo";
 import VideoRecList from "@components/videos/VideoRecList";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 
 const VideoPage = () => {
   const params = useParams()
-  const [video, setVideo] = useState({})
+  const { data: session } = useSession();
+  const [video, setVideo] = useState({})  
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -59,6 +60,7 @@ const VideoPage = () => {
                 data={video}
                 user={video.userId}
                 channel={video.channelId}
+                currentUser={session?.user}
               />
             </div>
             <div

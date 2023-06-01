@@ -8,16 +8,11 @@ import useLike from "@hooks/useLike";
 const LikeButton = ({ 
   userId,
   currentVideo,
-  size
+  hasLiked
 }) => {
-  const { hasLiked, toggleLike } = useLike({
-    userId,
-    currentVideo
-  });
 
   return (
     <div 
-      onClick={toggleLike}
       className="
         relative
         hover:opacity-80

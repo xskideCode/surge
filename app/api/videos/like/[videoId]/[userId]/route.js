@@ -24,7 +24,10 @@ export const POST = async (request, { params }) => {
       new: true,
     });
 
-    return NextResponse.json(updatedVideo);
+    const hasLiked = index === -1 ? true : false;
+    const response = { ...updatedVideo._doc, hasLiked };
+
+    return NextResponse.json(response);
     
   } catch (error) {
     return new Response(error, { status: 500 });

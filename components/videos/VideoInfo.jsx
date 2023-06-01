@@ -4,18 +4,38 @@ import Avatar from "@components/Avatar";
 import Button from "@components/Button";
 import { socialMedia } from "@components/profile/userInfo";
 import { shortenNumber } from "@components/profile/channelsTable";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MdCheckCircle, MdOutlineThumbUp, MdThumbUp } from "react-icons/md";
 import Socials from "@components/home/Socials";
 import { useRouter } from "next/navigation";
-
-const VideoInfo = ({ data, user, channel }) => {
+import LikeButton from "@components/LikeButton";
+import useLike from "@hooks/useLike";
+ 
+const VideoInfo = ({ data, user, channel, currentUser  }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const userId = currentUser?._id || currentUser?.id
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+  
+  const { hasLiked, likeCount, toggleLike } = useLike({
+    userId,
+    currentVideo: data
+  });
+
+  const [displayedLikeCount, setDisplayedLikeCount] = useState(0);
+
+  useEffect(() => {
+    if (data && data.likes) {
+      setDisplayedLikeCount(data.likes.length);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setDisplayedLikeCount(likeCount);
+  }, [likeCount]);
 
   return (
     <div className="flex flex-col">
@@ -68,9 +88,11 @@ const VideoInfo = ({ data, user, channel }) => {
         </div>
         <div className="flex flex-row items-center gap-2">
           {/* Like */}
-          <div className="flex flex-row h-8 items-center bg-zinc-800 px-2 gap-2 text-sm rounded-lg">
-            <MdOutlineThumbUp />
-            {shortenNumber(data?.likes?.length)}
+          <div
+            onClick={toggleLike}
+            className="flex flex-row h-8 items-center bg-zinc-800 px-2 gap-2 text-sm rounded-lg">
+            <LikeButton currentVideo={data} userId={currentUser?._id || currentUser?.id} hasLiked={hasLiked} />
+            {shortenNumber(displayedLikeCount)}
           </div>
           {/* Dropdown */}
           <div className="relative inline-block">

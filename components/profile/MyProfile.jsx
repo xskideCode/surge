@@ -83,7 +83,7 @@ const MyProfile = () => {
             <div className="md:w-[100px] hover:scale-110">
               <Button
                 label={'Promote'}
-                onClick={() => router.push('/checkout')}
+                onClick={() => router.push('/checkout?plan=3-Day')}
                 small
               />
             </div>
@@ -98,7 +98,7 @@ const MyProfile = () => {
             <div className=" md:w-[100px] hover:scale-110">
               <Button
                 label={'Promote'}
-                onClick={() => router.push('/checkout')}
+                onClick={() => router.push('/checkout?plan=Weekly')}
                 small
               />
             </div>

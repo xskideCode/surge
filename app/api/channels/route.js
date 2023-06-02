@@ -34,7 +34,7 @@ export const POST = async (request) => {
       
           if(existingChannel)  return new Response("Channel already exist.", { status: 400 });
 
-          const channel = new Channel({ channelId: item.id, snippet: item.snippet, statistics: item.statistics , userId: item.userId });
+          const channel = new Channel({ channelId: item.id, snippet: item.snippet, statistics: item.statistics , topicDetails: item.topicDetails, userId: item.userId });
           
           const newChannel = await Channel.create(channel); 
           
@@ -59,3 +59,39 @@ export const POST = async (request) => {
     return new Response("Failed to register user", { status: 500 }); 
   }
 }
+
+export const PATCH = async (request, { params }) => {
+  const body = await request.json();
+  const { schannel } = body;
+
+  for (const item of schannel) {
+    try {
+      await connectToDB();
+
+      if (
+        typeof item === "object" &&
+        item !== null &&
+        item.hasOwnProperty("id")
+      ) {
+        // Find the existing prompt by ID
+        const existingChannel = await Channel.findOne({ channelId: item.id });
+
+        if (!existingChannel) {
+          return new Response("Channel not found", { status: 404 });
+        }
+
+        // Update the prompt with new data
+
+        const updatedChannel = await Channel.findOneAndUpdate(
+          { channelId: item.id },
+          { snippet: item.snippet, statistics: item.statistics, topicDetails: item.topicDetails },
+          { new: true }
+        );
+
+        return new Response("Successfully updated the Channel", { status: 200 });
+      }
+    } catch (error) {
+      return new Response("Error Updating Channel", { status: 500 });
+    }
+  }
+};

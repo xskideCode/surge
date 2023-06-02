@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-import useDeleteModal from "@hooks/useDeleteModal";
+import useDelUserModal from "@hooks/useDelUserModal";
 
 import Modal from "./Modal";
 import Heading from "@components/Heading";
@@ -15,8 +15,8 @@ import { AiFillAlert } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
 
-const DeleteModal = () => {
-  const deleteModal = useDeleteModal();
+const DelUserModal = () => {
+  const delUserModal = useDelUserModal();
   const [isLoading, setIsLoading] = useState(false); 
   const router = useRouter();
   const { data: session } = useSession();
@@ -33,7 +33,7 @@ const DeleteModal = () => {
 
     axios.delete(`/api/user/${session.user.id}`, data)
       .then(() => {
-        deleteModal.onClose();
+        delUserModal.onClose();
         toast.success('Account Deleted');
         router.push('/');
       })
@@ -69,7 +69,7 @@ const DeleteModal = () => {
           type='button'
           label={`Cancel`}
           red   
-          onClick={() => { deleteModal.onClose();}}          
+          onClick={() => { delUserModal.onClose();}}          
         />
     </div>
   );
@@ -78,10 +78,10 @@ const DeleteModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={deleteModal.isOpen}
+      isOpen={delUserModal.isOpen}
       title="Settings"
       actionLabel="Delete "
-      onClose={deleteModal.onClose}
+      onClose={delUserModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -89,4 +89,4 @@ const DeleteModal = () => {
   )
 }
 
-export default DeleteModal
+export default DelUserModal

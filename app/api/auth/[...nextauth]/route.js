@@ -72,12 +72,15 @@ const handler = NextAuth({
     })
   ],
   callbacks: {
-    async session({ session }) {
+    async session({ session, token }) {
       const sessionUser = await User.findOne({
         email: session.user.email
       })
       
       session.user.id = sessionUser._id.toString();
+      
+      session.user.channels = tempchannels
+      session.user.accessToken = token.accessToken
       
       return session;
     },
@@ -112,15 +115,23 @@ const handler = NextAuth({
         return false;
       }
     },
-    async session({ session, token, user }) {
-
-      const user1 = await User.findOne({ email: token.email, });
-
-      session.user.id = user1._id;
-      session.user.channels = tempchannels
-      
-      return session
+    async jwt({ token, account, profile }) {
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token
+        token.id = profile.id
+      }
+      return token
     }
+    // async session({ session, token, user }) {
+
+    //   const user1 = await User.findOne({ email: token.email, });
+
+    //   session.user.id = user1._id;
+    //   session.user.channels = tempchannels
+      
+    //   return session
+    // }
   },
   pages: {
     signIn: '/',

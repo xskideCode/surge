@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 
-const useDeleteModal = create((set) => ({
+const useUpdateChannelModal = create((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false })
 }));
 
-export default useDeleteModal;
+export default useUpdateChannelModal;

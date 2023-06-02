@@ -3,7 +3,7 @@
 import Avatar from "@components/Avatar";
 import Button from "@components/Button";
 import Socials from "@components/home/Socials";
-import useDeleteModal from "@hooks/useDeleteModal";
+import useDelUserModal from "@hooks/useDelUserModal";
 import useSocialsModal from "@hooks/useSocialsModal";
 import useUserInfoModal from "@hooks/useUserInfoModal";
 import { BsFacebook, BsInstagram, BsTiktok, BsTwitter } from "react-icons/bs";
@@ -35,7 +35,7 @@ export const socialMedia = [
 const UserInfo = ({ user, isLoading }) => {
   const userInfoModal = useUserInfoModal();
   const socialsModal = useSocialsModal();
-  const deleteModal = useDeleteModal();
+  const delUserModal = useDelUserModal();
 
 
   return (
@@ -44,7 +44,7 @@ const UserInfo = ({ user, isLoading }) => {
       <div className="flex flex-row justify-start items-center gap-4">
         <div className="relative max-w-[80px] my-6">
           <Avatar src={user?.image} alt={user?.name || user?.username} large />
-          <div onClick={() => {deleteModal.onOpen(); }} className="absolute top-0 right-1 rounded-full p-[2px] text-black bg-[#8387A1] ring-[3px] ring-zinc-900 hover:scale-125"><MdDelete size={14} /></div>
+          <div onClick={() => {delUserModal.onOpen(); }} className="absolute top-0 right-1 rounded-full p-[2px] text-black bg-[#8387A1] ring-[3px] ring-zinc-900 hover:scale-125"><MdDelete size={14} /></div>
         </div>
         <div>
           <h3 className={`heading3 text-lg  font-semibold leading-6 mb-4`}>

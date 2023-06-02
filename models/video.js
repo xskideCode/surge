@@ -42,7 +42,7 @@ const VideoSchema = new Schema({
   statistics: {
     viewCount: String,
     likeCount: String,
-    commentCount: Boolean,
+    commentCount: String,
     favoriteCount: String,
   },
   userId: {

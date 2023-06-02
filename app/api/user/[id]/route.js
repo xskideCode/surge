@@ -59,7 +59,6 @@ export const PATCH = async (request, { params }) => {
       }
     });
 
-    console.log(existingUser);
 
     await existingUser.save();
 
@@ -75,6 +74,9 @@ export const DELETE = async (request, { params }) => {
 
     // Find the prompt by ID and remove it
     await User.findByIdAndRemove(params.id);
+
+    await Video.deleteMany({ userId: params.id });
+    await Channel.deleteMany({ userId: params.id });
 
     return new Response("User deleted successfully", { status: 200 });
   } catch (error) {

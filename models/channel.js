@@ -31,6 +31,10 @@ const ChannelSchema = new Schema({
     hiddenSubscriberCount: Boolean,
     videoCount: String,
   },
+  topicDetails: {
+    topicCategories: Array,
+    topicIds: Array,
+  },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -42,49 +46,6 @@ const ChannelSchema = new Schema({
 { timestamps: true }
 );
 
-
-// // Define the pre-remove middleware for the ChannelSchema
-// ChannelSchema.pre('remove', async function (next) {
-//   const User = mongoose.model('User');
-  
-//   try {
-//     // Find the users that have the channel in their channelIds array
-//     const users = await User.find({ channelIds: this._id });
-    
-//     // Update each user by removing the channelId from the channelIds array
-//     const updatePromises = users.map(user => {
-//       user.channelIds.pull(this._id);
-//       return user.save();
-//     });
-
-//     await Promise.all(updatePromises);
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-ChannelSchema.pre('remove', { document: false, query: true }, async function(next) {
-  const doc = await this.model.findOne(this.getFilter());
-  await Video.deleteMany({ channelId: doc._id })
-  const User = mongoose.model('User');
-
-  try {
-    // Find the users that have the channel in their channelIds array
-    const users = await User.find({ channelIds: this._id });
-    
-    // Update each user by removing the channelId from the channelIds array
-    const updatePromises = users.map(user => {
-      user.channelIds.pull(this._id);
-      return user.save();
-    });
-
-    await Promise.all(updatePromises);
-    next();
-  } catch (error) {
-    next(error);
-  }
-})
 
 const Channel = models.Channel || model("Channel", ChannelSchema);
 

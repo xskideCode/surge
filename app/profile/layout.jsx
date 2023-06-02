@@ -1,6 +1,8 @@
 import ChannelModal from "@components/modals/ChannelModal";
-import DeleteModal from "@components/modals/DeleteModal";
+import DelUserModal from "@components/modals/DelUserModal";
 import SocialsModal from "@components/modals/SocialsModal";
+import UpdateChannelModal from "@components/modals/UpdateChannelModal";
+import UpdateModal from "@components/modals/UpdateModal";
 import UserInfoModal from "@components/modals/UserInfoModal";
 import VideoModal from "@components/modals/VideoModal";
 import Tabs from "@components/profile/Tabs";
@@ -10,9 +12,11 @@ const ProfileLayout = ({ children }) => (
       <Tabs />
       <UserInfoModal />
       <SocialsModal />
-      <DeleteModal />
+      <DelUserModal />
       <ChannelModal />
       <VideoModal />
+      <UpdateModal />
+      <UpdateChannelModal />
       {children}
     </div>
 );

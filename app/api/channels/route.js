@@ -6,21 +6,75 @@ import User from '@models/user';
 export const GET = async (request) => {
   const query = request.nextUrl.searchParams;
   const page = query.get('page');
+  const search_query = query.get("search_query");
+  const sort = query.get("sort");
 
   try {
     await connectToDB();
 
     const LIMIT = 12;
     const startIndex = (Number(page) - 1) * LIMIT;
-    const total = await Channel.countDocuments({});
+    let total;
+    let channels;
 
-    const channels = await Channel.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex).populate("userId");
+    // Build the match stage
+    let matchStage = {};
+    
+    if (search_query) {
+      matchStage["$or"] = [
+        { "snippet.title": { $regex: search_query, $options: "i" } },
+        { "snippet.description": { $regex: search_query, $options: "i" } },
+        { "topicDetails.topicCategories": { $regex: search_query, $options: "i" } },
+      ];
+    }
 
+    // Build the sort stage
+    let sortStage = { _id: -1 };
+    if (sort === "upload-time") {
+      sortStage["_id"] = -1;
+    } else if (sort === "likes") {
+      sortStage["likesCount"] = -1;
+    } else if (sort === "view-count") {
+      sortStage["viewCount"] = -1;
+    }
 
-    return new Response(JSON.stringify({ data: channels, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) }), { status: 200 });
+    // Build the aggregation pipeline
+    let pipeline = [
+      { $match: matchStage },
+      {
+        $addFields: {
+          viewCount: { $toInt: "$statistics.viewCount" },
+          likesCount: { $toInt: "$statistics.subscriberCount" },
+        },
+      },
+      { $sort: sortStage },
+      { $skip: startIndex },
+      { $limit: LIMIT },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "userId",
+        },
+      },
+      { $unwind: "$userId" },
+    ];
+
+    total = await Channel.countDocuments(matchStage);
+    channels = await Channel.aggregate(pipeline);
+
+    return new Response(
+      JSON.stringify({
+        data: channels,
+        currentPage: Number(page),
+        numberOfPages: Math.ceil(total / LIMIT),
+      }),
+      { status: 200 }
+    );
 
   } catch (error) {
-      throw new Error("Failed to fetch all channels", { status: 400 })
+      throw new Error(error, { status: 400 })
   }
 } 
 

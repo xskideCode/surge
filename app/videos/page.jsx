@@ -1,30 +1,34 @@
 "use client";
 
 import Category from "@components/Category";
+import ClientOnly from "@components/ClientOnly";
+import EmptyState from "@components/EmptyState";
 import Loader from "@components/Loader";
 import Videos from "@components/videos/Videos";
 import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import qs from "query-string";
 import { useEffect, useRef, useState } from "react";
 
 const VideosPage = () => {
   const { data: session } = useSession();
+  const params = useSearchParams();
+  const pathname = usePathname();
   const [allVideos, setAllVideos] = useState([]);
   const [user, setUser] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [totalPages, setTotalPages] = useState(1)
- 
+  const [totalPages, setTotalPages] = useState(1);
+
   const totalPagesRef = useRef(totalPages);
   totalPagesRef.current = totalPages;
-
 
   const getCurrentUser = async () => {
     if (session?.user) {
       const response = await fetch(`/api/user/${session.user.id}`);
-      const data1 = await response.json();
+      const data = await response.json();
 
-      setUser(data1);
+      setUser(data);
     }
   };
 
@@ -32,10 +36,47 @@ const VideosPage = () => {
     getCurrentUser();
   }, []);
 
-  useEffect(() => {    
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasMounted) return;
+
+    let currentQuery = {};
+    if (params) {
+      currentQuery = qs.parse(params.toString());
+    }
+
+    const updatedQuery = {
+      ...currentQuery,
+      page: 1,
+    };
+
+    const url = qs.stringifyUrl(
+      {
+        url: "/api/videos",
+        query: updatedQuery,
+      },
+      { skipNull: true }
+    );
+    setTimeout(async () => {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      setAllVideos(data.data);
+      setTotalPages(data.numberOfPages);
+    }, 1500);
+  }, [params, hasMounted]);
+
+  useEffect(() => {
     setLoading(true);
     setTimeout(async () => {
-      const response = await fetch(`/api/videos?page=${page}`);
+      const response = await fetch(
+        `/api${pathname}?${params.toString()}&page=${page}`
+      );
       const data = await response.json();
 
       setAllVideos((prev) => {
@@ -43,7 +84,7 @@ const VideosPage = () => {
       });
       setTotalPages(data.numberOfPages);
       setLoading(false);
-    }, 1500);
+    }, 1000);
   }, [page]);
 
   useEffect(() => {
@@ -56,7 +97,7 @@ const VideosPage = () => {
     if (
       page < totalPagesRef.current &&
       window.innerHeight + document.documentElement.scrollTop + 1 >=
-      document.documentElement.scrollHeight
+        document.documentElement.scrollHeight
     ) {
       setPage((prev) => {
         const nextPage = prev + 1;
@@ -64,6 +105,14 @@ const VideosPage = () => {
       });
     }
   };
+
+  if (!allVideos || allVideos.length === 0) {
+    return (
+      <ClientOnly>
+        <EmptyState showReset loading={loading} />
+      </ClientOnly>
+    );
+  }
 
   return (
     <>

@@ -5,19 +5,79 @@ import User from "@models/user";
 
 export const GET = async (request) => {
   const query = request.nextUrl.searchParams;
-  const page = query.get('page');
+  const page = query.get("page");
+  const categoryId = query.get("categoryId");
+  const search_query = query.get("search_query");
+  const sort = query.get("sort");
 
   try {
     await connectToDB();
 
-    const LIMIT = 24;
+    const LIMIT = 20;
     const startIndex = (Number(page) - 1) * LIMIT; //get the first index of the page
-    const total = await Video.countDocuments({});
+    let total;
+    let videos;
 
-    const videos = await Video.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex).populate("channelId");
+    // Build the match stage
+    let matchStage = {};
+    if (categoryId) {
+      matchStage["snippet.categoryId"] = categoryId;
+    }
+    if (search_query) {
+      matchStage["$or"] = [
+        { "snippet.title": { $regex: search_query, $options: "i" } },
+        { "snippet.tags": { $regex: search_query, $options: "i" } },
+        { "snippet.description": { $regex: search_query, $options: "i" } },
+        { "snippet.channelTitle": { $regex: search_query, $options: "i" } },
+      ];
+    }
 
+    // Build the sort stage
+    let sortStage = {};
+    if (sort === "upload-time") {
+      sortStage["_id"] = -1;
+    } else if (sort === "likes") {
+      sortStage["likesCount"] = -1;
+    } else if (sort === "view-count") {
+      sortStage["viewCount"] = -1;
+    } else {
+      sortStage["_id"] = -1;
+    }
 
-    return new Response(JSON.stringify({ data: videos, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) }), { status: 200 });
+    // Build the aggregation pipeline
+    let pipeline = [
+      { $match: matchStage },
+      {
+        $addFields: {
+          viewCount: { $toInt: "$statistics.viewCount" },
+          likesCount: { $size: "$likes" },
+        },
+      },
+      { $sort: sortStage },
+      { $skip: startIndex },
+      { $limit: LIMIT },
+      {
+        $lookup: {
+          from: "channels",
+          localField: "channelId",
+          foreignField: "_id",
+          as: "channelId",
+        },
+      },
+      { $unwind: "$channelId" },
+    ];
+
+    total = await Video.countDocuments(matchStage);
+    videos = await Video.aggregate(pipeline);
+
+    return new Response(
+      JSON.stringify({
+        data: videos,
+        currentPage: Number(page),
+        numberOfPages: Math.ceil(total / LIMIT),
+      }),
+      { status: 200 }
+    );
   } catch (error) {
     return new Response("Failed to fetch all videos", { status: 500 });
   }

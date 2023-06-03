@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import qs from "query-string";
 
@@ -9,6 +9,7 @@ const CategoryBox = ({
 }) => {
   const router = useRouter();
   const params = useSearchParams();
+  const pathname = usePathname();
 
   const handleClick = useCallback(() => {
     let currentQuery = {};
@@ -28,12 +29,24 @@ const CategoryBox = ({
       delete updatedQuery.categoryId;
     }
 
-    const url = qs.stringifyUrl({
-      url: '/',
-      query: updatedQuery
-    }, { skipNull: true });
+    let url;
 
-    router.push(url);
+    if (pathname === '/') {
+      
+      url = qs.stringifyUrl({
+        url: '/videos',
+        query: updatedQuery
+      }, { skipNull: true });
+    } else {
+      
+      url = qs.stringifyUrl({
+        url: '/videos',
+        query: updatedQuery
+      }, { skipNull: true });
+    }
+
+    router.push(url, undefined, { scroll: false });
+    
   }, [label, id, params, router]);
 
   return (

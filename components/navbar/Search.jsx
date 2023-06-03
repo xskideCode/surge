@@ -1,11 +1,14 @@
 'use client';
 
+import useSearchModal from "@hooks/useSearchModal";
 import { ImSearch } from "react-icons/im";
 
 
 const Search = () => {
+  const searchModal = useSearchModal();
   return (
     <div
+      onClick={searchModal.onOpen}
       className="
         bg-zinc-800
         w-[30vw]

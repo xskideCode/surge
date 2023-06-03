@@ -3,11 +3,7 @@
 import CategoryBox from "./CategoryBox";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export const categories = [
-  {
-    id: "0",
-    label: "All",
-  },
+export const categories = [  
   {
     id: "10",
     label: "Music",
@@ -45,6 +41,10 @@ export const categories = [
     label: "Film & Animation",
   },
   {
+    id: "17",
+    label: "Sport",
+  },
+  {
     id: "26",
     label: "How-to & Style",
   },
@@ -65,9 +65,9 @@ export const categories = [
     label: "Science & Technology",
   },
   {
-    id: "17",
-    label: "Sport",
-  },
+    id: "0",
+    label: "Other",
+  }  
 ];
 
 const Category = () => {

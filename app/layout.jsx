@@ -6,6 +6,7 @@ import RegisterModal from "@components/modals/RegisterModal";
 import ToasterProvider from "@components/providers/ToasterProvider";
 import LoginModal from "@components/modals/LoginModal";
 import Footer from "@components/home/Footer";
+import SearchModal from "@components/modals/SearchModal";
 
 export const metadata = {
   title: "Surge Community",
@@ -20,6 +21,7 @@ const RootLayout = ({ children }) => (
         <main className='app'>
           <Navbar />
           <ToasterProvider />
+          <SearchModal />
           <LoginModal />
           <RegisterModal  />
           {children}

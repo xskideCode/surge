@@ -54,7 +54,6 @@ export const POST = async (request) => {
         var expireAfterSeconds =
           (futureDate.getTime() + millisecondsToAdd) / 1000;
       }
-      console.log("more than 15 promos");
     } else {
       const millisecondsToAdd =
         channel.plan === "3-Day"

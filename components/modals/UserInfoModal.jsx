@@ -35,7 +35,6 @@ const UserInfoModal = () => {
 
   const onSubmit = data => {
     setIsLoading(true);
-    console.log(data);
 
     axios.patch(`/api/user/${session.user.id}`, data)
       .then(() => {

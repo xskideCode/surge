@@ -4,12 +4,21 @@ import { connectToDB } from '@utils/database';
 import User from '@models/user';
 
 export const GET = async (request) => {
+  const query = request.nextUrl.searchParams;
+  const page = query.get('page');
+
   try {
-      await connectToDB()
+    await connectToDB();
 
-      const channels = await Channel.find({}).populate('userId')
+    const LIMIT = 12;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const total = await Channel.countDocuments({});
 
-      return new Response(JSON.stringify(channels), { status: 200 })
+    const channels = await Channel.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex).populate("userId");
+
+
+    return new Response(JSON.stringify({ data: channels, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) }), { status: 200 });
+
   } catch (error) {
       throw new Error("Failed to fetch all channels", { status: 400 })
   }

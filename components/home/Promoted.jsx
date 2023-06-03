@@ -6,7 +6,6 @@ import Link from "next/link";
 import Avatar from "@components/Avatar";
 import { useEffect, useState } from "react";
 import Loader from "@components/Loader";
-//import ChannelCard from './ChannelCard'
 
 const Promoted = () => {
   const [allPromotions, setAllPromotions] = useState([]);
@@ -14,7 +13,7 @@ const Promoted = () => {
 
   const fetchPromtions = async () => {
     setIsLoading(true);
-    const response = await fetch("/api/channels");
+    const response = await fetch("/api/promotion");
     const data = await response.json();
 
     setAllPromotions(data);
@@ -39,8 +38,8 @@ const Promoted = () => {
           </div>
         ) : (
           allPromotions.map((promotion) => (
-            <div className="flex flex-row justify-center px-5 py-1 ">
-              <div className="flex flex-col items-center group cursor-pointer">
+            <div key={promotion._id} className="flex flex-row justify-center px-5 py-1 ">
+              <div className="flex flex-col items-center group cursor-pointer max-w-[80px]">
                 <div
                   onClick={() => {
                     const url = `https://www.youtube.com/channel/${promotion.channelId}?sub_confirmation=1`;
@@ -49,7 +48,7 @@ const Promoted = () => {
                   className="flex flex-col justify-center items-center"
                 >
                   <Avatar lmd src={promotion?.snippet?.thumbnails?.high?.url} />
-                  <h6 className="px-auto my-1 whitespace-nowrap truncate font-poppins font-semibold xs:text-[14px] text-[12px]">
+                  <h6 title={promotion?.snippet?.title} className="px-auto my-1 whitespace-nowrap truncate font-poppins font-semibold xs:text-[14px] text-[12px]">
                     {promotion?.snippet?.title}{" "}
                     <MdCheckCircle className="inline text-zinc-400" />
                   </h6>

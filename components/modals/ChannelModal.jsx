@@ -50,9 +50,6 @@ const ChannelModal = () => {
         data.schannel[schannelIndex].userId = session.user.id;
       }
     }
-
-    console.log(data)
-    console.log('payload')
  
     axios.post('/api/channels', data)
       .then(() => {

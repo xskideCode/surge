@@ -32,7 +32,6 @@ const RegisterModal = () => {
 
   const onSubmit = data => {
     setIsLoading(true);
-    console.log(data);
 
     axios.post('/api/register', data)
       .then(() => {

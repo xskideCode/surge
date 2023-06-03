@@ -18,7 +18,6 @@ const DelVidModal = ({ isOpen, onClose }) => {
     setShowModal(isOpen);
     setVideo(deletionObject);
     
-    console.log(video)
   }, [isOpen, deletionObject]);
 
   const handleClose = useCallback(() => {
@@ -90,7 +89,7 @@ const DelVidModal = ({ isOpen, onClose }) => {
           `}
       >
     <div
-        class={`
+        className={`
             w-10/12
             sm:w-4/5
             md:w-4/6
@@ -104,7 +103,7 @@ const DelVidModal = ({ isOpen, onClose }) => {
         `}
       >
         <div
-          class={`
+          className={`
             flex
             flex-col
             items-center
@@ -121,9 +120,9 @@ const DelVidModal = ({ isOpen, onClose }) => {
             ${showModal ? "opacity-100" : "opacity-0"}
           `}
         >
-          <h2 class="text-base font-semibold">Confirm Delete?</h2>
+          <h2 className="text-base font-semibold">Confirm Delete?</h2>
 
-          <div class="flex items-center text-sm text-gray-500 bg-zinc-900 py-5 px-3 rounded-lg shadow-black box2 m-5 bg-opacity-12">
+          <div className="flex items-center text-sm text-gray-500 bg-zinc-900 py-5 px-3 rounded-lg shadow-black box2 m-5 bg-opacity-12">
             <img
               src={video?.snippet.thumbnails.default.url}
               alt={video?.snippet.title}
@@ -142,12 +141,12 @@ const DelVidModal = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          <div class="mt-4 w-4/5 flex justify-between gap-2">
+          <div className="mt-4 w-4/5 flex justify-between gap-2">
             <button
               type="button"
               disabled={isLoading}
               onClick={handleSubmit}
-              class="rounded bg-red-500 px-3 py-2 text-sm font-medium text-red-50"
+              className="rounded bg-red-500 px-3 py-2 text-sm font-medium text-red-50"
             >
               Delete
             </button>
@@ -156,7 +155,7 @@ const DelVidModal = ({ isOpen, onClose }) => {
               type="button"
               disabled={isLoading}
               onClick={handleClose}
-              class="rounded bg-gray-500 px-3 py-2 text-sm font-medium text-gray-50"
+              className="rounded bg-gray-500 px-3 py-2 text-sm font-medium text-gray-50"
             >
               Cancel
             </button>

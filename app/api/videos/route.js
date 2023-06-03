@@ -4,12 +4,20 @@ import Channel from "@models/channel";
 import User from "@models/user";
 
 export const GET = async (request) => {
+  const query = request.nextUrl.searchParams;
+  const page = query.get('page');
+
   try {
     await connectToDB();
 
-    const videos = await Video.find({}).populate("channelId");
+    const LIMIT = 24;
+    const startIndex = (Number(page) - 1) * LIMIT; //get the first index of the page
+    const total = await Video.countDocuments({});
 
-    return new Response(JSON.stringify(videos), { status: 200 });
+    const videos = await Video.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex).populate("channelId");
+
+
+    return new Response(JSON.stringify({ data: videos, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) }), { status: 200 });
   } catch (error) {
     return new Response("Failed to fetch all videos", { status: 500 });
   }
@@ -51,8 +59,6 @@ export const POST = async (request) => {
               "Attention! The video you uploaded does not match any of your registered channels.",
               { status: 400 }
             );
-
-          console.log(channel);
 
           const video = new Video({
             videoId: item.id,

@@ -23,7 +23,7 @@ const Videos = ({ videos , currentUser }) => {
         {videos.map((video) => (
           <VideoCard
             currentUser={currentUser}
-            key={video.id}
+            key={video._id}
             data={video}
           />
         ))}

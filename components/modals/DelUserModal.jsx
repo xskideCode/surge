@@ -29,7 +29,6 @@ const DelUserModal = () => {
 
   const onSubmit = data => {
     setIsLoading(true);
-    console.log(data);
 
     axios.delete(`/api/user/${session.user.id}`, data)
       .then(() => {

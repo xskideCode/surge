@@ -15,9 +15,9 @@ const UserContent = () => {
     const getCurrentUser = async () => {
       if (session?.user) {
         const response = await fetch(`/api/user/${session.user.id}`);
-        const data1 = await response.json();
+        const data = await response.json();
   
-        setUser(data1);
+        setUser(data);
       } 
     };
  
@@ -35,7 +35,7 @@ const UserContent = () => {
        <div>
         <ChannelsTable channels={user.channels} />
        </div>
-       <hr class="my-2 border-gray-600"/>
+       <hr className="my-2 border-gray-600"/>
        <div>
         <VideosTable videos={user.videos} />
        </div>

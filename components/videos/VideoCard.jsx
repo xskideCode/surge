@@ -24,7 +24,6 @@ const VideoCard = ({ data, currentUser, flexRow }) => {
 
   useEffect(() => {
     setDisplayedLikeCount(likeCount);
-    console.log(displayedLikeCount);
   }, [hasLiked]);
 
   return (
@@ -46,8 +45,8 @@ const VideoCard = ({ data, currentUser, flexRow }) => {
           
         </div>
         <div className="grid grid-cols-7 grid-rows-2 font-semibold text-lg gap-2 relative">
-          <div className={`row-span-2 justify-self-center cursor-pointer ${flexRow ? 'hidden' : ''}`}>
-          <Avatar  medium onClick={() => router.push(`/channels/${data?.channelId?._id}`)}  src={data.channelId?.snippet?.thumbnails.medium.url} />
+          <div onClick={() => router.push(`/channels/${data?.channelId?._id}`)}  className={`row-span-2 justify-self-center cursor-pointer ${flexRow ? 'hidden' : ''}`}>
+          <Avatar  medium src={data.channelId?.snippet?.thumbnails.medium.url} />
           </div>
           <div 
             className={`
@@ -66,6 +65,7 @@ const VideoCard = ({ data, currentUser, flexRow }) => {
                 max-h-12
                 cursor-pointer
               "
+              title={data?.snippet?.title}
             >
               {data?.snippet?.title}
             </div>

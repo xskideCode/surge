@@ -29,7 +29,6 @@ const ChannelPage = () => {
   
         setChannel(data);
         setAllVideos(data.videos);
-        console.log(data);
       }
     };
     const getCurrentUser = async () => {
@@ -53,6 +52,7 @@ const ChannelPage = () => {
           src={'/assets/images/banner3.png'}
           height={`150`}
           width={`1280`}
+          alt='Channel banner'
         />
       </div>
       <div className='relative flex flex-row justify-between items-center mt-24 xs:mt-28 sm:mt-40 '>

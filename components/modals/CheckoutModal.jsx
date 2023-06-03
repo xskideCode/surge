@@ -19,9 +19,6 @@ const CheckoutModal = ({ channel }) => {
   const onSubmit = useCallback(async () => {
     setIsLoading(true);
 
-    console.log(channel);
-    console.log("payload");
-
     axios
       .post("/api/promotion", channel)
       .then(() => {
@@ -58,7 +55,7 @@ const CheckoutModal = ({ channel }) => {
       >
         <div className="flex justify-center rounded-2xl p-6 bg-zinc-900 ">
           <img
-            src={channel?.snippet?.thumbnails?.default?.url}
+            src={channel?.snippet?.thumbnails?.high?.url || channel?.snippet?.thumbnails?.medium?.url || channel?.snippet?.thumbnails?.default?.url}
             alt={channel?.snippet?.title}
             className="rounded-full h-[36px] w-[36px] hover:scale-125 cursor-pointer mr-3  "
           />

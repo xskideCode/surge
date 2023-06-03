@@ -83,9 +83,6 @@ const UpdateChannelModal = () => {
       }
     }
 
-    console.log(data);
-    console.log("payload");
-
     axios
       .patch("/api/channels", data)
       .then(() => {

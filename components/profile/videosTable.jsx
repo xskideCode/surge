@@ -1,8 +1,7 @@
-import Image from "next/image";
-import React from "react";
+'use client';
+import React, { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
-import { HiArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import Button from "@components/Button";
 import Thumbnail from "@components/Thumbnail";
 import useVideoModal from "@hooks/useVideoModal";
@@ -10,11 +9,24 @@ import { shortenNumber } from "./channelsTable";
 import useUpdateModal from "@hooks/useUpdateModal";
 import useDelVidModal from "@hooks/useDelVidModal";
 import DelVidModal from "@components/modals/DelVidModal";
+import Pagination from "@components/Pagination";
 
 const VideosTable = ({ videos }) => {
   const videoModal = useVideoModal();
   const updateModal = useUpdateModal();
   const delVidModal = useDelVidModal();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5); 
+  const [currentVideos, setCurrentVideos] = useState([]);
+
+  useEffect(() => {
+    if (videos && videos.length > 0) {
+      const lastPostIndex = currentPage * postsPerPage;
+      const firstPostIndex = lastPostIndex - postsPerPage;
+      const videosToShow = videos.slice(firstPostIndex, lastPostIndex);
+      setCurrentVideos(videosToShow);
+    }
+  }, [videos, currentPage, postsPerPage]);
 
   return (
     <>
@@ -44,10 +56,10 @@ const VideosTable = ({ videos }) => {
                         className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-400"
                       >
                         <div className="flex items-center gap-x-3">
-                          <input
+                          {/* <input
                             type="checkbox"
                             className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"
-                          />
+                          /> */}
                           <span>Video</span>
                         </div>
                       </th>
@@ -73,14 +85,14 @@ const VideosTable = ({ videos }) => {
                   </thead>
                   <tbody className="bg-gray-900 divide-y divide-gray-700 ">
                     {videos && videos.length > 0 ? (
-                      videos.map((item) => (
-                        <tr>
+                      currentVideos.map((item) => (
+                        <tr key={item._id}>
                           <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap text-ellipsis overflow-hidden">
                             <div className="inline-flex items-center gap-x-3">
-                              <input
+                              {/* <input
                                 type="checkbox"
                                 className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"
-                              />
+                              /> */}
 
                               <div className="flex items-center gap-x-2">
                                 <Thumbnail
@@ -178,75 +190,16 @@ const VideosTable = ({ videos }) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between mt-6">
-          <a
-            href="#"
-            className="flex items-center px-5 py-2 text-sm capitalize transition-colors duration-200  border rounded-md gap-x-2 bg-gray-900 text-gray-200 border-gray-700 hover:bg-gray-800"
-          >
-            <HiArrowNarrowLeft />
-
-            <span>previous</span>
-          </a>
-
-          <div className="items-center hidden lg:flex gap-x-3">
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-blue-500 rounded-md bg-gray-800"
-            >
-              1
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-            >
-              2
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-            >
-              3
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-            >
-              ...
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-            >
-              12
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-            >
-              13
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-            >
-              14
-            </a>
-          </div>
-
-          <a
-            href="#"
-            className="flex items-center px-5 py-2 text-sm  capitalize transition-colors duration-200 border rounded-md gap-x-2 bg-gray-900 text-gray-200 border-gray-700 hover:bg-gray-800"
-          >
-            <span>Next</span>
-
-            <HiArrowNarrowRight />
-          </a>
+        <div className="overflow-x-auto">
+          <Pagination
+            totalPosts={videos?.length}
+            postsPerPage={postsPerPage}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+          />
         </div>
       </section>
-      <DelVidModal
-        isOpen={delVidModal.isOpen}
-        onClose={delVidModal.onClose}
-      />
+      <DelVidModal isOpen={delVidModal.isOpen} onClose={delVidModal.onClose} />
     </>
   );
 };

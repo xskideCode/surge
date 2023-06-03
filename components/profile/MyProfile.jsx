@@ -39,12 +39,12 @@ const MyProfile = () => {
         setIsLoading(false);
       }
     };
+    console.log(status)
  
     router.prefetch('/profile/content');
     router.prefetch('/profile/promotions');
 
     getCurrentUser();
-    console.log(status)
   
   }, [session, status, userInfoModal.isOpen, socialsModal.isOpen]);
   
@@ -53,7 +53,7 @@ const MyProfile = () => {
     <div className="grid sm:grid-cols-2 justify-items-center content-center grid-flow-row mt-4 mb-8 px-2 gap-6">
       {/* User Details */}
       <div className=" px-2 sm:px-0 row-span-6 ">
-        <UserInfo user={user} isLoading={isLoading} />
+        <UserInfo status={status} user={user} isLoading={isLoading} />
       </div>
       {/* Add Channel & Video Prompt */}
       <div className="row-span-2 ">

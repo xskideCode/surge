@@ -28,9 +28,6 @@ const UserPromotions = () => {
   
   }, [session?.user, status, session, router.pathname]);
 
-  console.log(user)
-  console.log(user.promotions)
-
   return (
     <div className='flex flex-col gap-8 w-[90vw] overflow-x-auto scrollbar-none  justify-center p-4'>
        <div>

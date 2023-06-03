@@ -113,9 +113,9 @@ const Footer = () => {
               </h4>
               <ul className="list-none mt-2 sm:mt-4">
                 {footerLink.links.map((link, index) => (
-                  <Link href={link.link}>
+                  <Link key={index} href={link.link}>
                     <li
-                      key={link.name}
+                      key={index}
                       className={`
                         font-poppins 
                         font-normal 

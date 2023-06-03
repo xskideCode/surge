@@ -16,7 +16,6 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_SECRET,
       authorization: { url: "https://accounts.google.com/o/oauth2/v2/auth", params: { scope: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube.readonly" } },
       async profile(profile, tokens) {
-        console.log(tokens);
         const url = 'https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CtopicDetails%2Cstatistics&mine=true';
 
         const requestOptions = {

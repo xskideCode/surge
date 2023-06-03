@@ -13,15 +13,15 @@ const Channels = ({ channels , currentUser }) => {
             sm:grid-cols-1 
             md:grid-cols-1 
             lg:grid-cols-2
-            xl:grid-cols-2
-            2xl:grid-cols-3
+            xl:grid-cols-1
+            2xl:grid-cols-1
             gap-8
           "
       >
         {channels.map((channel) => (
           <ChannelCard
             currentUser={currentUser}
-            key={channel.id}
+            key={channel._id}
             data={channel}
           />
         ))}

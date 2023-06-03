@@ -1,12 +1,27 @@
+'use client';
+
 import Avatar from "@components/Avatar";
 import Button from "@components/Button";
+import Pagination from "@components/Pagination";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { HiArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
+import { useEffect, useState } from "react";
 
 const PromotionsTable = ({ promotions }) => {
   const router = useRouter();
   const currentDate = new Date();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5); 
+  const [currentPromotions, setCurrentPromotions] = useState([]);
+
+  useEffect(() => {
+    if (promotions && promotions.length > 0) {
+      const lastPostIndex = currentPage * postsPerPage;
+      const firstPostIndex = lastPostIndex - postsPerPage;
+      const promotionsToShow = promotions.slice(firstPostIndex, lastPostIndex);
+      setCurrentPromotions(promotionsToShow);
+    }
+  }, [promotions, currentPage, postsPerPage]);
 
   return (
     <section className="container mx-auto rounded-2xl">
@@ -70,7 +85,7 @@ const PromotionsTable = ({ promotions }) => {
                 </thead>
                 <tbody className="bg-gray-900 divide-y divide-gray-700 ">
                   {promotions && promotions.length > 0 ? (
-                    promotions.map((item , id) => (
+                    currentPromotions.map((item , id) => (
                       <tr key={item.id}>
                         <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap">
                           <div className="inline-flex items-center gap-x-3">
@@ -235,70 +250,14 @@ const PromotionsTable = ({ promotions }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-6">
-        <a
-          href="#"
-          className="flex items-center px-5 py-2 text-sm capitalize transition-colors duration-200  border rounded-md gap-x-2 bg-gray-900 text-gray-200 border-gray-700 hover:bg-gray-800"
-        >
-          <HiArrowNarrowLeft />
-
-          <span>previous</span>
-        </a>
-
-        <div className="items-center hidden lg:flex gap-x-3">
-          <a
-            href="#"
-            className="px-2 py-1 text-sm text-blue-500 rounded-md bg-gray-800"
-          >
-            1
-          </a>
-          <a
-            href="#"
-            className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-          >
-            2
-          </a>
-          <a
-            href="#"
-            className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-          >
-            3
-          </a>
-          <a
-            href="#"
-            className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-          >
-            ...
-          </a>
-          <a
-            href="#"
-            className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-          >
-            5
-          </a>
-          <a
-            href="#"
-            className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-          >
-            6
-          </a>
-          <a
-            href="#"
-            className="px-2 py-1 text-sm rounded-md hover:bg-gray-800 text-gray-300 "
-          >
-            7
-          </a>
+      <div className="overflow-x-auto">
+        <Pagination
+            totalPosts={promotions?.length}
+            postsPerPage={postsPerPage}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+          />
         </div>
-
-        <a
-          href="#"
-          className="flex items-center px-5 py-2 text-sm  capitalize transition-colors duration-200 border rounded-md gap-x-2 bg-gray-900 text-gray-200 border-gray-700 hover:bg-gray-800"
-        >
-          <span>Next</span>
-
-          <HiArrowNarrowRight />
-        </a>
-      </div>
     </section>
   );
 };

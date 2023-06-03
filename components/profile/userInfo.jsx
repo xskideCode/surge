@@ -32,7 +32,7 @@ export const socialMedia = [
   },
 ];
 
-const UserInfo = ({ user, isLoading }) => {
+const UserInfo = ({ status, user, isLoading }) => {
   const userInfoModal = useUserInfoModal();
   const socialsModal = useSocialsModal();
   const delUserModal = useDelUserModal();
@@ -48,12 +48,14 @@ const UserInfo = ({ user, isLoading }) => {
         </div>
         <div>
           <h3 className={`heading3 text-lg  font-semibold leading-6 mb-4`}>
-            {((user?.name || user?.username) && !isLoading ) ? (
+            {(status !== 'unauthenticated') ? ((user?.name || user?.username) && !isLoading ) ? (
               <>
               {user?.name || user?.username }
               </>
             ):(
               <div className="bg-zinc-700 opacity-30 rounded-sm w-32 h-6 animate-pulse" />
+            ) : (
+              <h2>Sign in</h2>
             )}
           </h3>
         </div>

@@ -21,7 +21,6 @@ const HelpCenter = () => {
   
   const onSubmit = data => {
     setIsLoading(true);
-    console.log(data);
 
     axios.post('/api/message', data)
       .then(() => {
@@ -39,7 +38,7 @@ const HelpCenter = () => {
   return (
     <div className="isolate px-6 pb-24 pt-10 sm:pb-32 lg:px-8">
       <div className="mx-auto xs:min-w-[350px] ss:min-w-[450px] max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-50 sm:text-4xl">Contact Us <span class="inline-block  animate-wavingHand">👋🏻</span></h2>
+        <h2 className="text-3xl font-bold tracking-tight text-gray-50 sm:text-4xl">Contact Us <span className="inline-block  animate-wavingHand">👋🏻</span></h2>
       </div>
       <form  className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">   

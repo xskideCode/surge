@@ -62,20 +62,20 @@ const Checkout = () => {
           </h2>
         </div>
         {plan === "3-Day" && (
-          <div class="pt-24 flex">
-            <div class="flex flex-col justify-around w-72 h-[400px] m-auto px-8 pt-9 pb-4 bg-[#27292b] text-center rounded-3xl text-white  shadow-xl border-white transform scale-125 ">
-              <h1 class="text-white font-semibold text-2xl">3-Day Plan</h1>
-              <div class="bg-[#323537] rounded-lg mx-auto w-3/4 p-4">
-                <p class="tracking-wide">
-                  <span class="text-gray-400 align-top">$ </span>
-                  <span class="text-3xl font-semibold">1.5</span>
-                  <span class="text-gray-400 font-light "> USD</span>
+          <div className="pt-24 flex">
+            <div className="flex flex-col justify-around w-72 h-[400px] m-auto px-8 pt-9 pb-4 bg-[#27292b] text-center rounded-3xl text-white  shadow-xl border-white transform scale-125 ">
+              <h1 className="text-white font-semibold text-2xl">3-Day Plan</h1>
+              <div className="bg-[#323537] rounded-lg mx-auto w-3/4 p-4">
+                <p className="tracking-wide">
+                  <span className="text-gray-400 align-top">$ </span>
+                  <span className="text-3xl font-semibold">1.5</span>
+                  <span className="text-gray-400 font-light "> USD</span>
                 </p>
               </div>
-              <hr class="mt-2 border-1 border-gray-600" />
+              <hr className="mt-2 border-1 border-gray-600" />
               {channels && (
                 <div className="grid justify-center bg-[#212325] rounded-[20px] pb-4 mt-4 w-42 h-30 overflow-auto scrollbar-thin">
-                  <span class="text-gray-400 font-light text-xs m-2">
+                  <span className="text-gray-400 font-light text-xs m-2">
                     Select channel
                   </span>
                   {channels?.map((channel) => (
@@ -115,12 +115,12 @@ const Checkout = () => {
                         type="radio"
                         name="channel"
                         value={channel.id}
-                        checked={selectedChannel === channel}
+                        checked={selectedChannel === channel} 
                         onChange={() => handleChannelClick(channel)}
                         className="hidden"
                       />
                       <img
-                        src={channel.snippet.thumbnails.default.url}
+                        src={channel?.snippet?.thumbnails?.high?.url || channel?.snippet?.thumbnails?.medium?.url || channel?.snippet?.thumbnails?.default?.url}
                         alt={channel.snippet.title}
                         className="rounded-full h-[36px] w-[36px] hover:scale-125 cursor-pointer mr-3  "
                       />
@@ -139,13 +139,13 @@ const Checkout = () => {
                   ))}
                 </div>
               )}
-              <p class="flex flex-row gap-1 items-center font-semibold text-gray-400 text-left ml-2 mb-4">
+              <p className="flex flex-row gap-1 items-center font-semibold text-gray-400 text-left ml-2 mb-4">
                 <MdDone />
-                <span class="text-white pl-1">3</span> Day promotion
+                <span className="text-white pl-1">3</span> Day promotion
               </p>
               <Button label={"Purchase"} onClick={handlePurchaseClick} />
-              <div class="absolute top-3 right-4">
-                <p class="bg-purple-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">
+              <div className="absolute top-3 right-4">
+                <p className="bg-purple-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">
                   Popular
                 </p>
               </div>
@@ -153,20 +153,20 @@ const Checkout = () => {
           </div>
         )}
         {plan === "Weekly" && (
-          <div class="pt-24 flex">
-            <div class="flex flex-col justify-around w-72 h-[400px] m-auto p-8 bg-[#27292b] text-center rounded-3xl text-white  shadow-xl border-white transform scale-125 ">
-              <h1 class="text-white font-semibold text-2xl">Weekly Plan</h1>
-              <div class="bg-[#323537] rounded-lg mx-auto w-3/4 p-4">
-                <p class="tracking-wide">
-                  <span class="text-gray-400 align-top">$ </span>
-                  <span class="text-3xl font-semibold">3.0</span>
-                  <span class="text-gray-400 font-light "> USD</span>
+          <div className="pt-24 flex">
+            <div className="flex flex-col justify-around w-72 h-[400px] m-auto p-8 bg-[#27292b] text-center rounded-3xl text-white  shadow-xl border-white transform scale-125 ">
+              <h1 className="text-white font-semibold text-2xl">Weekly Plan</h1>
+              <div className="bg-[#323537] rounded-lg mx-auto w-3/4 p-4">
+                <p className="tracking-wide">
+                  <span className="text-gray-400 align-top">$ </span>
+                  <span className="text-3xl font-semibold">3.0</span>
+                  <span className="text-gray-400 font-light "> USD</span>
                 </p>
               </div>
-              <hr class="mt-2 border-1 border-gray-600" />
+              <hr className="mt-2 border-1 border-gray-600" />
               {channels && (
                 <div className="grid justify-center bg-[#212325] rounded-[20px] pb-4 mt-4 w-42 h-30 overflow-auto scrollbar-thin">
-                  <span class="text-gray-400 font-light text-xs m-2">
+                  <span className="text-gray-400 font-light text-xs m-2">
                     Select channel
                   </span>
                   {channels?.map((channel) => (
@@ -176,7 +176,7 @@ const Checkout = () => {
                       className="flex items-center flex-row h-12 my-2 px-2 p-1 rounded-lg hover:bg-[#323537] overflow-x-auto scrollbar-thin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:ring-offset-slate-900"
                     >
                       <img
-                        src={channel.snippet.thumbnails.default.url}
+                        src={channel?.snippet?.thumbnails?.high?.url || channel?.snippet?.thumbnails?.medium?.url || channel?.snippet?.thumbnails?.default?.url}
                         alt={channel.snippet.title}
                         className="rounded-full h-[36px] w-[36px] hover:scale-125 cursor-pointer mr-3  "
                       />
@@ -195,9 +195,9 @@ const Checkout = () => {
                   ))}
                 </div>
               )}
-              <p class="flex flex-row gap-1 items-center font-semibold text-gray-400 text-left ml-2 mb-4">
+              <p className="flex flex-row gap-1 items-center font-semibold text-gray-400 text-left ml-2 mb-4">
                 <MdDone />
-                <span class="text-white pl-1">7</span> Day promotion
+                <span className="text-white pl-1">7</span> Day promotion
               </p>
               <Button label={"Purchase"} onClick={handlePurchaseClick} />
             </div>

@@ -39,12 +39,12 @@ const MyHome = () => {
               
               </div> */}
             </div>
-            <div class="relative flex py-5 items-center opacity-50 hover:opacity-90">
-              <div class="flex-grow border-t border-gray-400"></div>
+            <div className="relative flex py-5 items-center opacity-50 hover:opacity-90">
+              <div className="flex-grow border-t border-gray-400"></div>
               <Link href="/videos">
-                <span class="flex-shrink mx-4 text-gray-400">View More</span>
+                <span className="flex-shrink mx-4 text-gray-400">View More</span>
               </Link>
-              <div class="flex-grow border-t border-gray-400"></div>
+              <div className="flex-grow border-t border-gray-400"></div>
             </div>
             <Community />
             <CTA />
@@ -72,12 +72,12 @@ const MyHome = () => {
               
               </div>
             </div>
-            <div class="relative flex py-5 items-center opacity-50 hover:opacity-90">
-              <div class="flex-grow border-t border-gray-400"></div>
+            <div className="relative flex py-5 items-center opacity-50 hover:opacity-90">
+              <div className="flex-grow border-t border-gray-400"></div>
               <Link href="/videos">
-                <span class="flex-shrink mx-4 text-gray-400">View More</span>
+                <span className="flex-shrink mx-4 text-gray-400">View More</span>
               </Link>
-              <div class="flex-grow border-t border-gray-400"></div>
+              <div className="flex-grow border-t border-gray-400"></div>
             </div>
             <Community />
             <CTA />

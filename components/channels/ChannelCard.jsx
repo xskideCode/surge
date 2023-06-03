@@ -12,13 +12,11 @@ const ChannelCard = ({ data, page }) => {
     <div
       className={`
         col-span-1
-        cursor-pointer
-        group
         sm:mb-0
         pt-5
         p-4
         rounded-md
-        ${page ? 'bg-transparent mb-2 w-[85vw] xs:w-auto' : 'bg-zinc-800 mb-8'} 
+        ${page ? 'bg-transparent mb-2 w-[85vw] xs:w-auto' : 'bg-zinc-800 mb-8 lg:w-full'} 
       `}
     >
       <div 
@@ -31,11 +29,11 @@ const ChannelCard = ({ data, page }) => {
           ${page ? 'flex-col xs:flex-row ' : 'flex-col'}
         `}
       >
-        <div onClick={() => router.push(`/channels/${data?._id}`)}>
+        <div onClick={() => router.push(`/channels/${data?._id}`)} className="cursor-pointer">
           <Avatar large={page ? true : false} xl={page ? false : true} src={data?.snippet?.thumbnails?.high?.url || data?.snippet?.thumbnails?.medium?.url || data?.snippet?.thumbnails?.default?.url} />
         </div>
 
-        <div onClick={() => router.push(`/channels/${data?._id}`)} className="sm:gap-2 w-full">
+        <div onClick={() => router.push(`/channels/${data?._id}`)} className="sm:gap-2 w-full cursor-pointer">
           <div 
             className={`
               flex
@@ -77,6 +75,7 @@ const ChannelCard = ({ data, page }) => {
                 ${page ? 'text-xs' : 'text-sm'}
                 ${page ? 'sm:pr-4' : 'pl-3'}
               `}
+              title={data?.snippet?.description}
             >
               {data?.snippet?.description}
             </div>

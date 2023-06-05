@@ -67,10 +67,10 @@ const ChannelsTable = ({ channels }) => {
                         className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-400"
                       >
                         <div className="flex items-center gap-x-3">
-                          <input
+                          {/* <input
                             type="checkbox"
                             className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"
-                          />
+                          /> */}
                           <span>Channel</span>
                         </div>
                       </th>
@@ -100,13 +100,14 @@ const ChannelsTable = ({ channels }) => {
                         <tr key={item._id}>
                           <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap">
                             <div className="inline-flex items-center gap-x-3">
-                              <input
+                              {/* <input
                                 type="checkbox"
                                 className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700"
-                              />
+                              /> */}
 
                               <div className="flex items-center gap-x-2">
                                 <Avatar
+                                  medium
                                   src={item?.snippet.thumbnails.medium.url}
                                 />
                                 <div className="w-40 ss:w-52 ">
@@ -161,11 +162,11 @@ const ChannelsTable = ({ channels }) => {
                       <tr className="animate-pulse">
                         <td className="px-4 py-4 text-sm min-w-[300px] font-medium text-gray-700 whitespace-nowrap">
                           <div className="inline-flex items-center gap-x-3">
-                            <input
+                            {/* <input
                               type="checkbox"
                               disabled
                               className="text-blue-500 rounded bg-gray-900 ring-offset-gray-900 border-gray-700 opacity-30"
-                            />
+                            /> */}
 
                             <div className="flex items-center gap-x-2">
                               <Image

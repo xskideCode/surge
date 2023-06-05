@@ -138,11 +138,11 @@ const VideoModal = () => {
     <div className="flex flex-col gap-4">
       <Heading
         title="Videos"
-        subtitle="Enter your video Id"
+        subtitle="Enter your Video Url or Id"
       />
       <Inputs 
         id="vidId"
-        label="Video ID"
+        label="Video Url"
         disabled={isLoading}
         register={register}
         errors={errors}

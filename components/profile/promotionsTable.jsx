@@ -91,6 +91,7 @@ const PromotionsTable = ({ promotions }) => {
                           <div className="inline-flex items-center gap-x-3">
                             <div className="flex items-center gap-x-2">
                               <Avatar
+                                medium
                                 src={item?.snippet?.thumbnails?.high?.url}
                               />
                               <div className="w-40 ss:w-52 ">

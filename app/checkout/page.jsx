@@ -3,6 +3,7 @@
 import Button from "@components/Button";
 import CheckoutModal from "@components/modals/CheckoutModal";
 import useCheckoutModal from "@hooks/useCheckoutModal";
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -36,8 +37,6 @@ const Checkout = () => {
   }, []);
 
   const handleChannelClick = (channel) => {
-    // setSelectedChannel(channel);
-    // selectedChannel.plan = plan;
     setSelectedChannel({ ...channel, plan });
   };
 
@@ -48,9 +47,22 @@ const Checkout = () => {
       });
       return;
     }
-    // show popup with channel details and confirm/cancel button
-    checkoutModal.onOpen();
-    
+    // show popup with channel details and confirm/cancel button if channel passes all checks
+    axios
+      .post("/api/promotion", selectedChannel)
+      .then(() => {
+        checkoutModal.onOpen();
+      })
+      .then(() => {
+        toast.success("Proceed", {
+          style: { background: "#333", color: "#fff" },
+        });
+      })
+      .catch((error) => {
+        toast.error(error.response.data, {
+          style: { background: "#333", color: "#fff" },
+        });
+      });
   }
 
   return (
@@ -78,9 +90,14 @@ const Checkout = () => {
                   <span className="text-gray-400 font-light text-xs m-2">
                     Select channel
                   </span>
-                  {channels?.map((channel) => (
+                  {channels.length === 0 && (
+                    <span className="text-rose-500 font-light text-xs m-2">
+                      Add channel !
+                    </span>
+                  )}
+                  {channels?.map((channel, index) => (
                     <label
-                      key={channel.id}
+                      key={index}
                       className={`
                       flex
                       items-center
@@ -105,7 +122,7 @@ const Checkout = () => {
                       transition
                       duration-200
                       ${
-                        selectedChannel === channel
+                        selectedChannel?._id === channel?._id
                           ? "outline-none ring-2 ring-offset-2 ring-gray-500 ring-offset-slate-900"
                           : ""
                       }
@@ -115,12 +132,16 @@ const Checkout = () => {
                         type="radio"
                         name="channel"
                         value={channel.id}
-                        checked={selectedChannel === channel} 
+                        checked={selectedChannel === channel}
                         onChange={() => handleChannelClick(channel)}
                         className="hidden"
                       />
                       <img
-                        src={channel?.snippet?.thumbnails?.high?.url || channel?.snippet?.thumbnails?.medium?.url || channel?.snippet?.thumbnails?.default?.url}
+                        src={
+                          channel?.snippet?.thumbnails?.high?.url ||
+                          channel?.snippet?.thumbnails?.medium?.url ||
+                          channel?.snippet?.thumbnails?.default?.url
+                        }
                         alt={channel.snippet.title}
                         className="rounded-full h-[36px] w-[36px] hover:scale-125 cursor-pointer mr-3  "
                       />
@@ -176,7 +197,11 @@ const Checkout = () => {
                       className="flex items-center flex-row h-12 my-2 px-2 p-1 rounded-lg hover:bg-[#323537] overflow-x-auto scrollbar-thin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:ring-offset-slate-900"
                     >
                       <img
-                        src={channel?.snippet?.thumbnails?.high?.url || channel?.snippet?.thumbnails?.medium?.url || channel?.snippet?.thumbnails?.default?.url}
+                        src={
+                          channel?.snippet?.thumbnails?.high?.url ||
+                          channel?.snippet?.thumbnails?.medium?.url ||
+                          channel?.snippet?.thumbnails?.default?.url
+                        }
                         alt={channel.snippet.title}
                         className="rounded-full h-[36px] w-[36px] hover:scale-125 cursor-pointer mr-3  "
                       />
@@ -204,9 +229,7 @@ const Checkout = () => {
           </div>
         )}
       </div>
-      {selectedChannel && (
-        <CheckoutModal channel={selectedChannel} />
-      )}
+      {selectedChannel && <CheckoutModal channel={selectedChannel} />}
     </div>
   );
 };

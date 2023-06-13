@@ -2,6 +2,9 @@ import Promotion from "@models/promotion";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
 
+// Define constants for magic numbers
+const MAX_USER_PROMOTIONS = 2;
+
 export const GET = async (request) => {
   try {
       await connectToDB()
@@ -31,67 +34,27 @@ export const POST = async (request) => {
 
     if (existingPromotion) {
       return new Response("Promotion already exists", { status: 400 });
-    }
-
-    const promotionCount = await Promotion.countDocuments();
-    if (promotionCount >= 15) {
-      channel.status = "pending";
-
-      var latestPromoDate = await Promotion.findOne()
-        .sort({
-          expireAt: -1,
-        })
-        .limit(1)[0].expireAt;
-      if (latestPromoDate) {
-        var currentDate = new Date();
-        const millisecondsToAdd =
-          channel.plan === "3-Day"
-            ? 3 * 24 * 60 * 60 * 1000
-            : 7 * 24 * 60 * 60 * 1000;
-        var futureDate = new Date(
-          latestPromoDate.getTime() - currentDate.getTime()
-        );
-        var expireAfterSeconds =
-          (futureDate.getTime() + millisecondsToAdd) / 1000;
-      }
-    } else {
-      const millisecondsToAdd =
-        channel.plan === "3-Day"
-          ? 3 * 24 * 60 * 60 * 1000
-          : 7 * 24 * 60 * 60 * 1000;
-      var expireAfterSeconds = millisecondsToAdd / 1000;
-    }
+    }    
 
     const existingPromotionsCount = await Promotion.countDocuments({
       userId: channel.userId,
     });
 
-    if (existingPromotionsCount >= 2) {
+    if (existingPromotionsCount >= MAX_USER_PROMOTIONS) {
       return new Response("User can only have 2 promotions at a time", {
         status: 400,
       });
     }
 
     
-    const newPromotion = new Promotion({
-      ...channel,
-      createdAt: new Date().toISOString(),
-      expireAt: new Date(Date.now() + expireAfterSeconds * 1000).toISOString(),
-    });
-    
     const user = await User.findOne({ _id: channel.userId });
 
-    await newPromotion.save();
-
-    if (user) {
-      user.promotions.push(newPromotion);
-      await user.save(); // Save the changes to the user document
-    } else {
+    if (!user) {
       return new Response("User not found.", { status: 404 });
     }
     
 
-    return new Response("Promotions created successfully", { status: 200 });
+    return new Response("Promotions can be created successfully", { status: 200 });
   } catch (error) {
     return new Response(error, { status: 409 });
   }

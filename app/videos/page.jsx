@@ -72,19 +72,21 @@ const VideosPage = () => {
   }, [params, hasMounted]);
 
   useEffect(() => {
+    if (pathname !== "/") {    
     setLoading(true);
     setTimeout(async () => {
-      const response = await fetch(
-        `/api${pathname}?${params.toString()}&page=${page}`
-      );
-      const data = await response.json();
+        const response = await fetch(
+          `/api${pathname}?${params.toString()}&page=${page}`
+        );
+        const data = await response.json();
 
-      setAllVideos((prev) => {
-        return [...prev, ...data.data];
-      });
-      setTotalPages(data.numberOfPages);
-      setLoading(false);
-    }, 1000);
+        setAllVideos((prev) => {
+          return [...prev, ...data.data];
+        });
+        setTotalPages(data.numberOfPages);
+        setLoading(false);
+      }, 1000);
+    }
   }, [page]);
 
   useEffect(() => {

@@ -48,7 +48,7 @@ const PromotionSchema = new Schema(
     },
     expireAt: {
       type: Date,
-      required: true,
+      default: Date.now,
       index: { expires: expireAfterSeconds },
     },
   },

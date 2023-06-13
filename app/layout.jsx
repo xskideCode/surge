@@ -14,16 +14,19 @@ export const metadata = {
 };
 
 const RootLayout = ({ children }) => (
-  <html lang='en'>
+  <html lang="en">
+    <head>
+      <link rel="icon" href="/assets/icons/favicon.ico" />
+    </head>
     <body>
       <Provider>
-      <div className='main bg-primary font-poppins'/>
-        <main className='app'>
+        <div className="main bg-primary font-poppins" />
+        <main className="app">
           <Navbar />
           <ToasterProvider />
           <SearchModal />
           <LoginModal />
-          <RegisterModal  />
+          <RegisterModal />
           {children}
           <Footer />
         </main>

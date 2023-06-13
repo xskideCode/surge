@@ -174,11 +174,13 @@ const Modal = ({
                     onClick={handleSecondaryAction}                  
                     />
                   )}
-                  <Button 
-                    disabled={disabled}
-                    label={actionLabel} 
-                    onClick={handleSubmit}                  
-                  />
+                  {actionLabel && (
+                    <Button 
+                      disabled={disabled}
+                      label={actionLabel} 
+                      onClick={handleSubmit}                  
+                    />
+                  )}
                 </div>
                 {footer}
               </div>

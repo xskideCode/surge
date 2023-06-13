@@ -47,7 +47,7 @@ const VideoModal = () => {
   }
 
   const extractVideoId = (url) => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|live\/)([^#\&\?]*).*/;
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
   }
@@ -169,7 +169,7 @@ const VideoModal = () => {
           scrollbar-thin
           "
         >
-        {videos.map((item, id) => (
+        {videos?.map((item, id) => (
             <div key={id} className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-x-2">
                 <Thumbnail src={item?.snippet?.thumbnails?.medium?.url} />

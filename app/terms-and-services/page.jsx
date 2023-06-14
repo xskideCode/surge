@@ -19,7 +19,7 @@ export const terms = [
   {
     id: "4.",
     name: "Accuracy of materials",
-    p: "The materials appearing on Surge community's website could include technical, typographical, or photographic errors. Surge community does not warrant that any of the materials on its website are accurate, complete or current. Surge community may make changes to the materials contained on its website at any time without notice. However Sharree does not make any commitment to update the materials."
+    p: "The materials appearing on Surge community's website could include technical, typographical, or photographic errors. Surge community does not warrant that any of the materials on its website are accurate, complete or current. Surge community may make changes to the materials contained on its website at any time without notice. However Surge communtiy does not make any commitment to update the materials."
   },
   {
     id: "5.",

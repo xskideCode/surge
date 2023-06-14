@@ -31,7 +31,7 @@ export const policies = [
   },
   {
     id: "7.", 
-    p: "Surge community uses API services from Google to allow quick registration using your social network accounts. Surge community only collects your name/username and profile picture to quickly personalize your account. A password is automatically generated which you can modify post-registration. For your privacy you are able to modify/remove your username and profile picture, you also have the ability to delete your account in your account settings if you wish to discontinue using Surge community.",
+    p: "Surge community uses API services from Google to allow quick registration using your social network accounts. Surge community only collects your name/username profile picture and any linked youtube channel accounts to quickly personalize your account. You have the ability to delete your account in your account settings if you wish to discontinue using Surge community.",
   },
   {
     id: "8.",

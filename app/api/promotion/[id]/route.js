@@ -4,10 +4,10 @@ import { connectToDB } from "@utils/database";
 
 // Define constants for magic numbers
 const MAX_PROMOTIONS = 15;
-const THREE_DAY_S = 3 * 60;
-const SEVEN_DAY_S = 7 * 60;
-// const THREE_DAY_S = 3 * 24 * 60 * 60;
-// const SEVEN_DAY_S = 7 * 24 * 60 * 60;
+// const THREE_DAY_S = 3 * 60;
+// const SEVEN_DAY_S = 7 * 60;
+const THREE_DAY_S = 3 * 24 * 60 * 60;
+const SEVEN_DAY_S = 7 * 24 * 60 * 60;
 
 export const POST = async (request) => {
   const body = await request.json();

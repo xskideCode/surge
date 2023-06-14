@@ -15,16 +15,16 @@ const CheckoutModal = ({ channel }) => {
   const checkoutModal = useCheckoutModal();
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
-  
+
   let product = {};
 
   if (channel.plan === "3-Day") {
-     product = {
+    product = {
       description: "3-Day Promotion",
       cost: "1.50",
     };
   } else if (channel.plan === "Weekly") {
-     product = {
+    product = {
       description: "Weekly Promotion",
       cost: "3.00",
     };
@@ -60,7 +60,7 @@ const CheckoutModal = ({ channel }) => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  product: product
+                  product: product,
                 }),
               });
               const order = await response.json();
@@ -76,8 +76,9 @@ const CheckoutModal = ({ channel }) => {
               });
               const details = await response.json();
               // This function shows a transaction success message to your buyer.
-
+              console.log(details);
               onSubmit();
+              axios.post("/api/order", { ...details, userId: session.user.id })                
             },
           })
           .render("#paypal_buttons");
@@ -157,7 +158,10 @@ const CheckoutModal = ({ channel }) => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <div id="paypal_buttons" className=" bg-zinc-300 p-4 rounded-md"></div>
+      <div
+        id="paypal_buttons"
+        className="flex justify-center bg-zinc-300 p-4 rounded-md"
+      ></div>
       <hr />
       <Button
         type="button"

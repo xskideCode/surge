@@ -26,7 +26,7 @@ export const footerLinks = [
     ],
   },
   {
-    title: "Resoures",
+    title: "Resources",
     links: [
       {
         name: "Help Center",

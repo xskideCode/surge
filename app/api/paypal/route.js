@@ -2,21 +2,36 @@ import fetch from "node-fetch";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_SECRET } = process.env;
 const base = "https://api-m.sandbox.paypal.com";
+const validProducts = [
+  {
+    description: "3-Day Promotion",
+    cost: "1.50",
+  },
+  {
+    description: "Weekly Promotion",
+    cost: "3.00",
+  },
+];
 
-export async function POST(req, res) {
+export async function POST(req) {
   const body = await req.json();
   const { orderID, product } = body;
+  
+  // Validate product
+  if (!validProducts.some(validProduct => validProduct.description === product.description && validProduct.cost === product.cost)) {
+    return new Response(JSON.stringify({ error: 'Invalid product' }), { status: 400 });
+  }
   if (orderID) {
     const result = await capturePayment(orderID);
     return new Response(JSON.stringify(result), { status: 200 }); 
-    //res.status(200).json(result);
   } else {
     const result = await createOrder(product);
     return new Response(JSON.stringify(result), { status: 200 }); 
-    //res.status(200).json(result);
   }
 }
 
+
+ 
 async function createOrder(product) {
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;  

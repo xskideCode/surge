@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { loadScript } from "@paypal/paypal-js";
+import { useRouter } from "next/navigation";
 
 import Modal from "./Modal";
 import Heading from "@components/Heading";
@@ -13,6 +14,7 @@ import useCheckoutModal from "@hooks/useCheckoutModal";
 
 const CheckoutModal = ({ channel }) => {
   const checkoutModal = useCheckoutModal();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
 
@@ -106,6 +108,7 @@ const CheckoutModal = ({ channel }) => {
         toast.success("Purchase successful", {
           style: { background: "#333", color: "#fff" },
         });
+        router.push("/")
       })
       .catch((error) => {
         toast.error(error.response.data, {

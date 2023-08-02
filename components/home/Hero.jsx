@@ -19,7 +19,7 @@ const Hero = () => {
             <button
               onClick={registerModal.onOpen}
               type="button"
-              className={`py-3 px-6 bg-purple-700 font-poppins font-medium text-[18px] text-white outline-none rounded-[10px] transition-all transform ring-0 ring-gray-50 hover:ring-2 ring-opacity-80 duration-200`}
+              className={`py-3 px-6 bg-purple-700 font-poppins z-[5] sfont-medium text-[18px] text-white outline-none rounded-[10px] transition-all transform ring-0 ring-gray-50 hover:ring-2 ring-opacity-80 duration-200`}
             >
               Join Us
             </button>

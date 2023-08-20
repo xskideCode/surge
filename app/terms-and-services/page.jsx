@@ -4,7 +4,7 @@ export const terms = [
   {
     id: "1.",
     name: "Terms",
-    p: "By accessing the website at https://surgecomm.com, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.",
+    p: "By accessing the website at https://www.connectnsurge.com, you are agreeing to be bound by these terms of service, all applicable laws and regulations including the consumer protection laws of Kenya, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.",
   }, 
   {
     id: "2.",
@@ -39,7 +39,7 @@ export const terms = [
   {
     id: "8.",
     name: "Refunds",
-    p: "Given the nature of our digital services/products being instantly delivered and activated upon purchase, a refund is not guaranteed and is determined by your case unless required under relevant consumer protection laws.",
+    p: "Our refund policy aims to be fair and compliant with relevant consumer protection laws. Refund eligibility and timeframes will depend on your specific case. Please contact us if you believe you qualify for a refund under the applicable laws..",
   },
 ]
 

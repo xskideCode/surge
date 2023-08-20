@@ -16,7 +16,7 @@ const Community = () => (
     <div className="sectionInfo">
       <h2 className="heading4 md:px-0 px-2">
         Welcome to our community <br className="sm:block hidden" />
-        for small YouTube channels!{" "}
+        for YouTubers!{" "}
       </h2>
       <p className="paragraph max-w-[470px] mt-5 md:px-0 px-2">
         Our goal is to provide a supportive and collaborative space where

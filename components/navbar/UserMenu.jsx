@@ -75,7 +75,7 @@ const UserMenu = ({ user }) => {
             top-12
             text-sm
             sidebar
-            z-10
+            z-50
           '
         >
           <div className='flex flex-col items-center gap-3 cursor-pointer'>

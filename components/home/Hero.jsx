@@ -12,7 +12,7 @@ const Hero = () => {
             Youtube Community <br className="sm:block hidden" />{" "}
           </h1>
           <p className={`paragraph text-center max-w-[470px] mt-5`}>
-            A communtiy for small youtube channels. Get the opportunity to share
+            A communtiy for youtubers. Get the opportunity to share
             content beyond your social circle and a few tips from the community
           </p>
           <div className={`flex_center mt-10`}>

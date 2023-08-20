@@ -3,7 +3,7 @@
 export const policies = [
   {
     id: "1.",
-    p: "Your privacy is important to us. It is Surge Community’s policy to respect your privacy regarding any information we may collect from you across our website, https://surgecomm.com, and other sites we own and operate.",
+    p: "Your privacy is important to us. It is Surge Community’s policy to respect your privacy regarding any information we may collect from you across our website, https://www.connectnsurge.com, and other sites we own and operate.",
   }, 
   {
     id: "2.",
@@ -18,24 +18,36 @@ export const policies = [
     p: "We don’t share any personally identifying information publicly or with third-parties, except when required to by law.",
   },
   {
-    id: "4.",
+    id: "5.",
     p: "Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and practices of these sites, and cannot accept responsibility or liability for their respective privacy policies."
   },
   {
-    id: "5.",
+    id: "6.",
     p: "You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services.",
   },
   {
-    id: "6.",
-    p: "Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us.",
-  },
-  {
-    id: "7.", 
-    p: "Surge community uses API services from Google to allow quick registration using your social network accounts. Surge community only collects your name/username profile picture and any linked youtube channel accounts to quickly personalize your account. You have the ability to delete your account in your account settings if you wish to discontinue using Surge community.",
+    id: "7.",
+    p: "You have the right to request access to, rectification or erasure of your personal data, or restriction of processing or object to processing of your personal data, in accordance with the Data Protection Act 2019. Please contact us if you wish to make any requests relating to your personal data.",
   },
   {
     id: "8.",
-    p: "This policy is effective as of 30 March 2023. Last updated: 26 April 2023.",
+    p: "Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us.",
+  },
+  {
+    id: "9.", 
+    p: "Surge community uses API services from Google to allow quick registration using your social network accounts. Surge community only collects your name/username profile picture and any linked youtube channel accounts to quickly personalize your account. You have the ability to delete your account in your account settings if you wish to discontinue using Surge community.",
+  },
+  {
+    id: "10.", 
+    p: "Surge Community's use and transfer to any other app of information received from Google APIs will adhere to Google API Services User Data Policy, including the Limited Use requirements.",
+  },
+  {
+    id: "11.",
+    p: "This policy complies with the Data Protection Act 2019 of Kenya.",
+  },
+  {
+    id: "12.",
+    p: "This policy is effective as of 30 June 2023. Last updated: 19 August 2023.",
   },
 ]
 

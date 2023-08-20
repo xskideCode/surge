@@ -4,6 +4,10 @@ import useRegisterModal from "@hooks/useRegisterModal";
 const CTA = () => {
   const registerModal = useRegisterModal();
 
+  const handleJoinDiscord = () => {
+    window.open("https://discord.gg/ByUHkv7nNd", "_blank");
+  };
+
   return (
     <section
       className="
@@ -32,7 +36,7 @@ const CTA = () => {
           type="button"
           label={`Join Us`}
           
-          onClick={registerModal.onOpen}
+          onClick={handleJoinDiscord}
         />
       </div>
     </section>

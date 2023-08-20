@@ -86,7 +86,7 @@ const Footer = () => {
             height={70}
           />
           <p className="paragraph2 mt-2 sm:mt-4 max-w-[510px] md:px-0 px-2">
-            A community for small YouTube channels to share content, get tips and
+            A community for YouTubers to share content, get tips and
             find collaboration opportunities.
           </p>
         </div>

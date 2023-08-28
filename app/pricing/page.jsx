@@ -27,13 +27,13 @@ const Pricing = () => {
               <div className="mx-auto max-w-xs px-8">
                 <p className="text-base font-poppins font-semibold text-gray-400">Normal</p>
                 <p className="mt-6 mb-8 flex items-baseline justify-center gap-x-2">
-                  <span className="text-5xl font-poppins font-bold tracking-tight text-gray-30">$1.5</span>
+                  <span className="text-5xl font-poppins font-bold tracking-tight text-gray-30">$ 3</span>
                   <span className="text-sm font-poppins font-semibold leading-6 tracking-wide text-gray-400">USD</span>
                 </p>
                 <Button
-                  label={'Promote'}
+                  label={'Coming Soon'}
                   small
-                  onClick={() => router.push(`/checkout?plan=3-Day`)}
+                  //onClick={() => router.push(`/checkout?plan=3-Day`)}
                 />
               </div>
             </div>
@@ -51,13 +51,13 @@ const Pricing = () => {
               <div className="mx-auto max-w-xs px-8">
                 <p className="text-base font-poppins font-semibold text-gray-400">Weekly</p>
                 <p className="mt-6 mb-8 flex items-baseline justify-center gap-x-2">
-                  <span className="text-5xl font-poppins font-bold tracking-tight text-gray-30">$3.0</span>
+                  <span className="text-5xl font-poppins font-bold tracking-tight text-gray-30">$ 10</span>
                   <span className="text-sm font-poppins font-semibold leading-6 tracking-wide text-gray-400">USD</span>
                 </p>
                 <Button
-                  label={'Promote'}
+                  label={'Coming Soon'}
                   small
-                  onClick={() => router.push(`/checkout?plan=Weekly`)}
+                  //onClick={() => router.push(`/checkout?plan=Weekly`)}
                   />
               </div>
             </div>

@@ -77,13 +77,13 @@ const MyProfile = () => {
             <div className="my-auto col-span-3 ">Basic Plan</div>
             <div className=" col-span-2">
               <h4 className="text-2xl sm:text-3xl font-poppins font-semibold tracking-wide">
-                $ 1.5 <span className="text-sm sm:text-base text-gray-500">for 3 Days</span>
+                $ 3 <span className="text-sm sm:text-base text-gray-500">for 3 Days</span>
               </h4>
             </div>
             <div className="md:w-[100px] hover:scale-110">
               <Button
-                label={'Promote'}
-                onClick={() => router.push('/checkout?plan=3-Day')}
+                label={'Coming Soon'}
+                //onClick={() => router.push('/checkout?plan=3-Day')}
                 small
               />
             </div>
@@ -92,13 +92,13 @@ const MyProfile = () => {
             <div className="my-auto col-span-3 ">Weekly Plan</div>
             <div className=" col-span-2">
               <h4 className="text-2xl sm:text-3xl font-poppins font-semibold tracking-wide">
-                $ 3 <span className="text-sm sm:text-base text-gray-500">for 7 Days</span>
+                $ 10 <span className="text-sm sm:text-base text-gray-500">for 7 Days</span>
               </h4>
             </div>
             <div className=" md:w-[100px] hover:scale-110">
               <Button
-                label={'Promote'}
-                onClick={() => router.push('/checkout?plan=Weekly')}
+                label={'Coming Soon'}
+                //onClick={() => router.push('/checkout?plan=Weekly')}
                 small
               />
             </div>

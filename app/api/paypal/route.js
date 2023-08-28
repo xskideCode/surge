@@ -5,11 +5,11 @@ const base = "https://api-m.sandbox.paypal.com";
 const validProducts = [
   {
     description: "3-Day Promotion",
-    cost: "1.50",
+    cost: "3.00",
   },
   {
     description: "Weekly Promotion",
-    cost: "3.00",
+    cost: "10.00",
   },
 ];
 

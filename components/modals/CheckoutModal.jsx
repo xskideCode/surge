@@ -23,12 +23,12 @@ const CheckoutModal = ({ channel }) => {
   if (channel.plan === "3-Day") {
     product = {
       description: "3-Day Promotion",
-      cost: "1.50",
+      cost: "3.00",
     };
   } else if (channel.plan === "Weekly") {
     product = {
       description: "Weekly Promotion",
-      cost: "3.00",
+      cost: "10.00",
     };
   }
 

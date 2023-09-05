@@ -9,6 +9,7 @@ import useVideoModal from "@hooks/useVideoModal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { signIn, getProviders } from "next-auth/react";
 
 const MyProfile = () => {
   const router = useRouter();
@@ -21,7 +22,16 @@ const MyProfile = () => {
 
   const [user, setUser] = useState({});  
   const [isLoading, setIsLoading] = useState(false);  
-    
+  const [providers, setProviders] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getProviders();
+      setProviders(res);
+    })();
+  }, [])
+
+  
   useEffect(() => {
     const visibilityHandler = () => document.visibilityState === "visible" && update()
     window.addEventListener("visibilitychange", visibilityHandler, false)
@@ -59,8 +69,20 @@ const MyProfile = () => {
       <div className="row-span-2 ">
         <div className="flex flex-col items-center min-w-[250px] sm:w-80 md:w-96 p-4 overflow-hidden bg-zinc-800 gap-4 shadow rounded-2xl ">
          
+        <button 
+          class="relative w-full group rounded-md border-2 border-white" 
+          onClick={() => {
+            signIn('google');
+          }} 
+        >
+          <img src="/assets/icons/YouTube-White-Logo.wine.svg" alt="youtube-logo" class="w-full h-[48px] bg-contain bg-center transition-all duration-300 filter group-hover:blur-md" />
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span class="text-black text-lg font-semibold ">Add Channel</span>
+          </div>
+        </button>
+
           <Button 
-            label={'Add Channel'}
+            label={'Confirm Channel'}
             outline
             onClick={() => {channelModal.onOpen(); }}
           />

@@ -112,17 +112,7 @@ const ChannelModal = () => {
               </div>
           ))}
           </> ) : ( <>
-            <Button
-            type='button'
-            label={`Log Out`}  
-            disabled={isLoading} 
-            red
-            onClick={async () => {
-              signOut({ callbackUrl: '/' });
-              
-            }}                 
-          />  
-          <p className="text-gray-400">Sign in with the google account that contains your channel</p>
+          <p className="text-gray-400">Click the YouTube button above and sign in with the google account that contains your channel.</p>
           </>)}
       </div>
     </div>    

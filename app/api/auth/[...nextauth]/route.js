@@ -68,7 +68,26 @@ const handler = NextAuth({
 
         return user;
       }
-    })
+    }),
+    {
+      id: "google1",
+      name: "Google",
+      type: "oauth",
+      wellKnown: "https://accounts.google.com/.well-known/openid-configuration",
+      authorization: { params: { scope: "openid email profile" } },
+      idToken: true,
+      checks: ["pkce", "state"],
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+        }
+      },
+    }
   ],
   callbacks: {
     async session({ session, token }) {

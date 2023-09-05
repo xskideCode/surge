@@ -98,11 +98,11 @@ const LoginModal = () => {
       <hr />
       <Button
           type='button'
-          label={`Continue with Google`}
-          outline
+          label={`Sign in with Google`}
+          blue 
           icon={FcGoogle}
           onClick={() => {
-            signIn('google');
+            signIn('google1');
           }}          
         />
       <div 

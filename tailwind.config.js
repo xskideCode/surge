@@ -10,6 +10,9 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
       },
+      backgroundImage: {
+        'youtube-logo': "url('/assets/icons/YouTube-White-Logo.wine.svg')",
+      },
       colors: {
         primary: "#181818",
         secondary: "#a855f7",

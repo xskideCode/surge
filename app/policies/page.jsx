@@ -39,7 +39,7 @@ export const policies = [
   },
   {
     id: "10.", 
-    p: "Surge Community's use and transfer to any other app of information received from Google APIs will adhere to Google API Services User Data Policy, including the Limited Use requirements.",
+    p: "Surge Community's use and transfer to any other app of information received from Google APIs will adhere to <a href='https://developers.google.com/terms/api-services-user-data-policy' target='_blank' rel='noopener noreferrer' style='text-decoration: underline; color: #0070f3;'>Google API Services User Data Policy</a>, including the Limited Use requirements.",
   },
   {
     id: "11.",
@@ -58,7 +58,7 @@ const Policies = () => {
         <hr />
         {policies.map((policy, i) => (
         <div key={i}>
-        <p className='paragraph max-w-[90%] mt-5 md:px-0 px-2 xs:text-[14px] text-[13px]'>{policy.id} {policy.p}
+        <p className='paragraph max-w-[90%] mt-5 md:px-0 px-2 xs:text-[14px] text-[13px]' dangerouslySetInnerHTML={{ __html: policy.id + ' ' + policy.p }}>
         </p>
       </div>
       ))}
